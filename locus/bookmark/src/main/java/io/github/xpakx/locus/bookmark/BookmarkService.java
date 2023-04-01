@@ -1,6 +1,7 @@
 package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
+import io.github.xpakx.locus.bookmark.error.NotFoundException;
 import io.github.xpakx.locus.downloader.WebpageDownloader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,17 @@ public class BookmarkService {
         bookmarkEsRepository.save(data);
     }
 
-    public String extractContent(String url) {
+    private String extractContent(String url) {
         return downloaders.stream()
                 .filter((a) -> a.isApplicable(url))
                 .map((a) -> a.getContentForUrl(url))
                 .findFirst()
                 .orElse("");
+    }
+
+    public Bookmark getBookmarkById(Long id) {
+        return bookmarkRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)));
     }
 }

@@ -15,4 +15,10 @@ public class BookmarkController {
     public Bookmark saveBookmark(@RequestBody BookmarkRequest request) {
         return bookmarkService.addBookmark(request);
     }
+
+    @GetMapping("/{bookmarkId}")
+    @ResponseBody
+    public Bookmark getBookmarkById(@PathVariable Long bookmarkId) {
+        return bookmarkService.getBookmarkById(bookmarkId);
+    }
 }
