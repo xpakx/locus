@@ -5,35 +5,26 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import io.github.xpakx.locus.bookmark.BookmarkData;
 import io.github.xpakx.locus.elasticsearch.error.ESException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
-public class BookmarkCustomRepository {
-    private final ElasticsearchClient elasticsearchClient;
+public class BookmarkCustomRepository extends GenericESRepository<BookmarkData> {
+
+    @Autowired
+    public BookmarkCustomRepository(ElasticsearchClient elasticsearchClient) {
+        super(elasticsearchClient);
+    }
+
     public List<BookmarkData> searchForBookmark(String searchString) {
         try {
-            SearchResponse<BookmarkData> response = doFuzzySearch(searchString, "content");
+            SearchResponse<BookmarkData> response = doFuzzySearch(searchString, "bookmarks", "content");
             return response.hits().hits().stream().map(Hit::source).toList();
         } catch(IOException exception) {
             throw new ESException();
         }
-    }
-
-    private SearchResponse<BookmarkData> doFuzzySearch(String searchString, String field) throws IOException {
-        return elasticsearchClient.search(s -> s
-                        .index("bookmarks")
-                        .query(q -> q
-                                .fuzzy(f -> f
-                                        .field(field)
-                                        .value(searchString)
-                                )
-                        ),
-                BookmarkData.class
-        );
     }
 }
