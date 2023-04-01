@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
+    private final BookmarkElasticsearchRepository bookmarkEsRepository;
     private final List<WebpageDownloader> downloaders;
 
     public Bookmark addBookmark(BookmarkRequest request) {
@@ -19,7 +20,16 @@ public class BookmarkService {
         bookmark.setUrl(request.url());
         bookmark.setDate(LocalDate.now());
         bookmark.setContent(extractContent(request.url()));
-        return bookmarkRepository.save(bookmark);
+        bookmark = bookmarkRepository.save(bookmark);
+        saveToES(bookmark); // TODO: extract to aspect
+        return bookmark;
+    }
+
+    private void saveToES(Bookmark bookmark) {
+        BookmarkData data = new BookmarkData();
+        data.setContent(bookmark.getContent());
+        data.setDbId(bookmark.getId());
+        bookmarkEsRepository.save(data);
     }
 
     public String extractContent(String url) {
