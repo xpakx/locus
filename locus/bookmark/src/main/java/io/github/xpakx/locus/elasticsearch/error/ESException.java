@@ -1,4 +1,4 @@
-package io.github.xpakx.locus.bookmark.error;
+package io.github.xpakx.locus.elasticsearch.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,9 +1,10 @@
-package io.github.xpakx.locus.bookmark;
+package io.github.xpakx.locus.elasticsearch;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import io.github.xpakx.locus.bookmark.error.ESException;
+import io.github.xpakx.locus.bookmark.BookmarkData;
+import io.github.xpakx.locus.elasticsearch.error.ESException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

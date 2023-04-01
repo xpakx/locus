@@ -1,5 +1,6 @@
-package io.github.xpakx.locus.bookmark;
+package io.github.xpakx.locus.elasticsearch;
 
+import io.github.xpakx.locus.bookmark.BookmarkData;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
