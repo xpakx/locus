@@ -6,6 +6,7 @@ import io.github.xpakx.locus.downloader.WebpageDownloader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final BookmarkElasticsearchRepository bookmarkEsRepository;
+    private final BookmarkCustomRepository bookmarkCustomRepository;
     private final List<WebpageDownloader> downloaders;
 
     public Bookmark addBookmark(BookmarkRequest request) {
@@ -48,6 +50,6 @@ public class BookmarkService {
     }
 
     public List<BookmarkData> searchForBookmark(String searchString) {
-        return bookmarkEsRepository.findByContentContaining(searchString); //TODO: test if it works
+        return bookmarkCustomRepository.searchForBookmark(searchString);
     }
 }
