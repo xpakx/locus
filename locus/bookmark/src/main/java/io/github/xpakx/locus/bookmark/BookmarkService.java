@@ -46,4 +46,8 @@ public class BookmarkService {
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)));
     }
+
+    public List<BookmarkData> searchForBookmark(String searchString) {
+        return bookmarkEsRepository.findByContentContaining(searchString); //TODO: test if it works
+    }
 }
