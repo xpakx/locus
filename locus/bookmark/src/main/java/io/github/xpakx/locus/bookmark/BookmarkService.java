@@ -3,7 +3,6 @@ package io.github.xpakx.locus.bookmark;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import io.github.xpakx.locus.bookmark.error.NotFoundException;
 import io.github.xpakx.locus.downloader.WebpageDownloader;
-import io.github.xpakx.locus.elasticsearch.BookmarkCustomRepository;
 import io.github.xpakx.locus.elasticsearch.SaveToElasticSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
-    private final BookmarkCustomRepository bookmarkCustomRepository;
     private final List<WebpageDownloader> downloaders;
 
     @SaveToElasticSearch
@@ -39,9 +37,5 @@ public class BookmarkService {
         return bookmarkRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)));
-    }
-
-    public List<BookmarkData> searchForBookmark(String searchString) {
-        return bookmarkCustomRepository.searchForBookmark(searchString);
     }
 }
