@@ -15,8 +15,8 @@ public class ElasticSearchAspect {
 
     @AfterReturning(value="@annotation(SaveToElasticSearch)", returning = "response")
     public void saveObject(Object response) {
-        if(response instanceof Bookmark) {
-            saveBookmark((Bookmark) response);
+        if(response instanceof Bookmark bookmark) {
+            saveBookmark(bookmark);
         }
     }
 
