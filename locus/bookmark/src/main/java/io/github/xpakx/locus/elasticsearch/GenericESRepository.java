@@ -10,8 +10,9 @@ import java.io.IOException;
 public abstract class GenericESRepository<T> {
     private final ElasticsearchClient elasticsearchClient;
     private final Class<T> clazz;
+    private final String index;
 
-    protected SearchResponse<T> doFuzzySearch(String searchString, String index, String field) throws IOException {
+    protected SearchResponse<T> doFuzzySearch(String searchString, String field) throws IOException {
         return elasticsearchClient.search(s -> s
                         .index(index)
                         .query(q -> q
@@ -24,7 +25,7 @@ public abstract class GenericESRepository<T> {
         );
     }
 
-    protected boolean create(T object, String index) throws IOException {
+    protected boolean create(T object) throws IOException {
         return elasticsearchClient.index(i -> i
                 .index(index)
                 .document(object)

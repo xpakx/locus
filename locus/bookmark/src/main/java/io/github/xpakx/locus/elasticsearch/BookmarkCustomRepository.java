@@ -16,12 +16,12 @@ public class BookmarkCustomRepository extends GenericESRepository<BookmarkData> 
 
     @Autowired
     public BookmarkCustomRepository(ElasticsearchClient elasticsearchClient) {
-        super(elasticsearchClient, BookmarkData.class);
+        super(elasticsearchClient, BookmarkData.class, "bookmarks");
     }
 
     public List<BookmarkData> searchForBookmark(String searchString) {
         try {
-            SearchResponse<BookmarkData> response = doFuzzySearch(searchString, "bookmarks", "content");
+            SearchResponse<BookmarkData> response = doFuzzySearch(searchString, "content");
             return response.hits().hits().stream().map(Hit::source).toList();
         } catch(IOException exception) {
             throw new ESException();
@@ -30,7 +30,7 @@ public class BookmarkCustomRepository extends GenericESRepository<BookmarkData> 
 
     public void saveBookmark(BookmarkData bookmark) {
         try {
-            super.create(bookmark, "bookmarks");
+            super.create(bookmark);
         } catch(IOException exception) {
             throw new ESException();
         }
