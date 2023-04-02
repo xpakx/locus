@@ -23,4 +23,14 @@ public abstract class GenericESRepository<T> {
                 clazz
         );
     }
+
+    protected boolean create(T object, String index) throws IOException {
+        return elasticsearchClient.index(i -> i
+                .index(index)
+                .document(object)
+        )
+                .result()
+                .name()
+                .equals("Created");
+    }
 }

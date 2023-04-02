@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ElasticSearchAspect {
-    private final BookmarkElasticsearchRepository bookmarkEsRepository;
+    private final BookmarkCustomRepository bookmarkEsRepository;
 
     @AfterReturning(value="@annotation(SaveToElasticSearch)", returning = "response")
     public void saveObject(Object response) {
@@ -24,6 +24,6 @@ public class ElasticSearchAspect {
         BookmarkData data = new BookmarkData();
         data.setContent(bookmark.getContent());
         data.setDbId(bookmark.getId());
-        bookmarkEsRepository.save(data);
+        bookmarkEsRepository.saveBookmark(data);
     }
 }
