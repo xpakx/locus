@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,6 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.http.HttpStatus.*;
@@ -39,7 +38,7 @@ class BookmarkControllerTest {
     @Autowired
     JwtUtils jwt;
     @Autowired
-    BookmarkRepository courseRepository;
+    BookmarkRepository bookmarkRepository;
 
     @MockBean
     UrlReaderService urlReaderService;
@@ -54,7 +53,7 @@ class BookmarkControllerTest {
 
     @AfterEach
     void tearDown() {
-        courseRepository.deleteAll();
+        bookmarkRepository.deleteAll();
     }
     private String tokenFor(String username) {
         return tokenFor(username, new ArrayList<>());
@@ -90,6 +89,7 @@ class BookmarkControllerTest {
     private BookmarkRequest getBookmarkRequest(String url) {
         return new BookmarkRequest(url);
     }
+
     @Test
     void shouldBookmarkPage() throws IOException {
         doReturn("").when(urlReaderService).read(any(URL.class));
@@ -105,6 +105,7 @@ class BookmarkControllerTest {
                 .statusCode(OK.value())
                 .body("url", equalTo("http://example.com"));
     }
+
     @Test
     void shouldBookmarkPageWithCorrectContent() throws IOException {
         doReturn("webpage content").when(urlReaderService).read(any(URL.class));
@@ -120,5 +121,61 @@ class BookmarkControllerTest {
                 .statusCode(OK.value())
                 .body("url", equalTo("http://example.com"))
                 .body("content", equalTo("webpage content"));
+    }
+
+    @Test
+    void shouldRespondWith401ToViewBookmarkIfNotAuthenticated() {
+        when()
+                .get(baseUrl + "/{bookmarkId}", 1L)
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWith401ToViewBookmarkIfTokenIsWrong() {
+        given()
+                .auth()
+                .oauth2("329432853295")
+        .when()
+                .get(baseUrl + "/{bookmarkId}", 1L)
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWith404ToViewBookmarkIfThereIsNoSuchBookmark() {
+        given()
+                .auth()
+                .oauth2(tokenFor("user"))
+        .when()
+                .get(baseUrl + "/{bookmarkId}", 1L)
+        .then()
+                .log().body()
+                .statusCode(NOT_FOUND.value());
+    }
+
+    @Test
+    void shouldReturnBookmark()  {
+        Long bookmarkId = addBookmark("http://example.com", "content");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+        .when()
+                .get(baseUrl + "/{bookmarkId}", bookmarkId)
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("url", equalTo("http://example.com"))
+                .body("content", equalTo("content"));
+    }
+
+    private Long addBookmark(String url, String content) {
+        Bookmark bookmark = new Bookmark();
+        bookmark.setContent(content);
+        bookmark.setDate(LocalDate.now());
+        bookmark.setUrl(url);
+        return bookmarkRepository.save(bookmark).getId();
     }
 }
