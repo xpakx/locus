@@ -19,4 +19,6 @@ public class BookmarkData {
     @Field(type = FieldType.Text, name = "content")
     private String content;
 
+    @Field(type = FieldType.Text, name = "url")
+    private String url;
 }
