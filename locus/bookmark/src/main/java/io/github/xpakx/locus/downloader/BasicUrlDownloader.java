@@ -11,7 +11,7 @@ import java.net.URL;
 
 @Service
 @RequiredArgsConstructor
-@Order(999) // make sure that's last downloader
+@Order(999) // ensures that this downloader is the last one to be called
 public class BasicUrlDownloader implements WebpageDownloader {
     private final UrlReaderService urlReader;
     @Override

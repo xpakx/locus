@@ -16,7 +16,7 @@ public class BookmarkCustomRepository extends GenericESRepository<BookmarkData> 
 
     @Autowired
     public BookmarkCustomRepository(ElasticsearchClient elasticsearchClient) {
-        super(elasticsearchClient);
+        super(elasticsearchClient, BookmarkData.class);
     }
 
     public List<BookmarkData> searchForBookmark(String searchString) {
