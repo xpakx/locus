@@ -1,5 +1,6 @@
 package io.github.xpakx.locus.elasticsearch;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import io.github.xpakx.locus.bookmark.BookmarkData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,9 @@ class BookmarkCustomRepositoryTest {
 
     @Autowired
     BookmarkCustomRepository bookmarkRepository;
+
+    @Autowired
+    ElasticsearchClient elasticsearchClient;
 
     @AfterEach
     void cleanUp() throws IOException {
@@ -40,12 +44,12 @@ class BookmarkCustomRepositoryTest {
         assertTrue(result);
     }
     @Test
-    void shouldFindBookmarks() throws InterruptedException {
+    void shouldFindBookmarks() throws InterruptedException, IOException {
         bookmarkRepository.saveBookmark(getBookmark("content"));
         bookmarkRepository.saveBookmark(getBookmark("conent"));
         bookmarkRepository.saveBookmark(getBookmark("content"));
         bookmarkRepository.saveBookmark(getBookmark("something"));
-        Thread.sleep(2000);
+        elasticsearchClient.indices().refresh();
         List<BookmarkData> result = bookmarkRepository.searchForBookmark("content");
         for(var data : result) {
             System.out.println(data.getContent());
