@@ -32,6 +32,7 @@ public class BookmarkCustomRepository extends GenericESRepository<BookmarkData> 
         try {
             super.create(bookmark);
         } catch(IOException exception) {
+            System.out.println(exception);
             throw new ESException();
         }
     }
