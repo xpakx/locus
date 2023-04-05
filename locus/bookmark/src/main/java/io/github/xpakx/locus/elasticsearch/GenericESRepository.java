@@ -34,4 +34,16 @@ public abstract class GenericESRepository<T> {
                 .name()
                 .equals("Created");
     }
+
+    public void deleteAll() throws IOException {
+        elasticsearchClient.indices().delete(d -> d
+                        .index(index)
+        );
+    }
+
+    public void createIndex() throws IOException {
+        elasticsearchClient.indices().create(d -> d
+                .index(index)
+        );
+    }
 }
