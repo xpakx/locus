@@ -1,7 +1,6 @@
 package io.github.xpakx.locus.elasticsearch;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import io.github.xpakx.locus.bookmark.BookmarkData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

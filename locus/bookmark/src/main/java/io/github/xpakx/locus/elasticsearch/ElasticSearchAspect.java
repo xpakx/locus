@@ -1,6 +1,5 @@
 package io.github.xpakx.locus.elasticsearch;
 
-import io.github.xpakx.locus.bookmark.BookmarkData;
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.AfterReturning;

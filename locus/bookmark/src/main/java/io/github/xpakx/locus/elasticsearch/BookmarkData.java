@@ -1,4 +1,4 @@
-package io.github.xpakx.locus.bookmark;
+package io.github.xpakx.locus.elasticsearch;
 
 import lombok.Getter;
 import lombok.Setter;

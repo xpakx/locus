@@ -2,7 +2,7 @@ package io.github.xpakx.locus.bookmark.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.xpakx.locus.bookmark.Bookmark;
-import io.github.xpakx.locus.bookmark.BookmarkData;
+import io.github.xpakx.locus.elasticsearch.BookmarkData;
 
 import java.time.LocalDate;
 
