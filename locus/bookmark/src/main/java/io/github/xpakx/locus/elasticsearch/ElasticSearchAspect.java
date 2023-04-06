@@ -1,6 +1,5 @@
 package io.github.xpakx.locus.elasticsearch;
 
-import io.github.xpakx.locus.bookmark.Bookmark;
 import io.github.xpakx.locus.bookmark.BookmarkData;
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ElasticSearchAspect {
-    private final BookmarkCustomRepository bookmarkEsRepository;
+    private final BookmarkESRepository bookmarkEsRepository;
 
     @AfterReturning(value="@annotation(SaveToElasticSearch)", returning = "response")
     public void saveObject(Object response) {

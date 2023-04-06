@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookmarkCustomRepositoryTest {
 
     @Autowired
-    BookmarkCustomRepository bookmarkRepository;
+    BookmarkESRepository bookmarkRepository;
 
     @Autowired
     ElasticsearchClient elasticsearchClient;

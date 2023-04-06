@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Repository
-public class BookmarkCustomRepository extends GenericESRepository<BookmarkData> {
+public class BookmarkESRepository extends GenericESRepository<BookmarkData> {
 
     @Autowired
-    public BookmarkCustomRepository(ElasticsearchClient elasticsearchClient) {
+    public BookmarkESRepository(ElasticsearchClient elasticsearchClient) {
         super(elasticsearchClient, BookmarkData.class, "bookmarks");
     }
 
