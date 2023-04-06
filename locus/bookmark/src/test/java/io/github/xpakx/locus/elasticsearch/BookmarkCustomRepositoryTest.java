@@ -59,9 +59,27 @@ class BookmarkCustomRepositoryTest {
     }
 
     private BookmarkData getBookmark(String content) {
+        return getBookmark(content, "");
+    }
+
+    private BookmarkData getBookmark(String content, String owner) {
         BookmarkData bookmark = new BookmarkData();
         bookmark.setUrl("https://example.com");
         bookmark.setContent(content);
+        bookmark.setOwner(owner);
         return bookmark;
+    }
+
+    @Test
+    void shouldFindUserBookmarks() throws IOException {
+        bookmarkRepository.saveBookmark(getBookmark("content", "user1"));
+        bookmarkRepository.saveBookmark(getBookmark("conent", "user1"));
+        bookmarkRepository.saveBookmark(getBookmark("content", "user2"));
+        bookmarkRepository.saveBookmark(getBookmark("something", "user2"));
+        elasticsearchClient.indices().refresh();
+
+        List<BookmarkData> result = bookmarkRepository.searchForUserBookmark("content", "user1");
+
+        assertThat(result, hasSize(2));
     }
 }

@@ -27,6 +27,7 @@ public class ElasticSearchAspect {
         data.setDbId(bookmark.id());
         data.setUrl(bookmark.url());
         data.setDate(bookmark.date());
+        data.setOwner(bookmark.owner());
         bookmarkEsRepository.saveBookmark(data);
     }
 }

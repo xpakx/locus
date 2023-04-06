@@ -25,6 +25,9 @@ public class BookmarkData {
     @Field(type = FieldType.Text, name = "url")
     private String url;
 
-    @Field(type = FieldType.Date, format = DateFormat.date)
+    @Field(type = FieldType.Text, name = "owner")
+    private String owner ;
+
+    @Field(type = FieldType.Date, format = DateFormat.date, name = "date")
     private LocalDate date;
 }

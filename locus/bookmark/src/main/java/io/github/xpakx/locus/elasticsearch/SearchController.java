@@ -5,6 +5,7 @@ import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ public class SearchController {
 
     @GetMapping
     @ResponseBody
-    public List<BookmarkDto> searchContent(@RequestParam String searchString) {
-        return service.searchForBookmark(searchString);
+    public List<BookmarkDto> searchContent(@RequestParam String searchString, Principal principal) {
+        return service.searchForUserBookmark(searchString, principal.getName());
     }
 }

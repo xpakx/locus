@@ -16,4 +16,7 @@ public class SearchService {
     public List<BookmarkDto> searchForBookmark(String searchString) {
         return bookmarkCustomRepository.searchForBookmark(searchString).stream().map(BookmarkDto::of).toList();
     }
+    public List<BookmarkDto> searchForUserBookmark(String searchString, String username) {
+        return bookmarkCustomRepository.searchForUserBookmark(searchString, username).stream().map(BookmarkDto::of).toList();
+    }
 }

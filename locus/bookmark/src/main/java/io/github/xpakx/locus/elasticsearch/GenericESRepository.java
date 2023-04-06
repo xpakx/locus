@@ -25,11 +25,34 @@ public abstract class GenericESRepository<T> {
         );
     }
 
+    protected SearchResponse<T> doFuzzySearchWithField(String searchString, String field, String requiredField, String requiredValue) throws IOException {
+        return elasticsearchClient.search(s -> s
+                        .index(index)
+                        .query(q -> q
+                                .bool(b -> b
+                                        .must(m -> m
+                                                .term(t -> t
+                                                        .field(requiredField)
+                                                        .value(requiredValue)
+                                                )
+                                        )
+                                        .should(m -> m
+                                                .fuzzy(f -> f
+                                                        .field(field)
+                                                        .value(searchString)
+                                                )
+                                        )
+                                )
+                        ),
+                clazz
+        );
+    }
+
     protected boolean create(T object) throws IOException {
         return elasticsearchClient.index(i -> i
-                .index(index)
-                .document(object)
-        )
+                        .index(index)
+                        .document(object)
+                )
                 .result()
                 .name()
                 .equals("Created");
@@ -37,7 +60,7 @@ public abstract class GenericESRepository<T> {
 
     public void deleteAll() throws IOException {
         elasticsearchClient.indices().delete(d -> d
-                        .index(index)
+                .index(index)
         );
     }
 
