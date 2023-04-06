@@ -1,5 +1,6 @@
 package io.github.xpakx.locus.bookmark;
 
+import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,13 @@ public class BookmarkController {
 
     @PostMapping
     @ResponseBody
-    public Bookmark saveBookmark(@RequestBody BookmarkRequest request) {
+    public BookmarkDto saveBookmark(@RequestBody BookmarkRequest request) {
         return bookmarkService.addBookmark(request);
     }
 
     @GetMapping("/{bookmarkId}")
     @ResponseBody
-    public Bookmark getBookmarkById(@PathVariable Long bookmarkId) {
+    public BookmarkDto getBookmarkById(@PathVariable Long bookmarkId) {
         return bookmarkService.getBookmarkById(bookmarkId);
     }
 }

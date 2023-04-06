@@ -1,6 +1,7 @@
 package io.github.xpakx.locus.elasticsearch;
 
 import io.github.xpakx.locus.bookmark.BookmarkData;
+import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public class SearchService {
     private final BookmarkCustomRepository bookmarkCustomRepository;
 
 
-    public List<BookmarkData> searchForBookmark(String searchString) {
-        return bookmarkCustomRepository.searchForBookmark(searchString);
+    public List<BookmarkDto> searchForBookmark(String searchString) {
+        return bookmarkCustomRepository.searchForBookmark(searchString).stream().map(BookmarkDto::of).toList();
     }
 }

@@ -30,30 +30,31 @@ class BookmarkCustomRepositoryTest {
     }
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
         try {
             bookmarkRepository.createIndex();
         } catch(Exception e) {
-            System.out.println("TEST" + e);
+            System.out.println("Index not created:" + e);
         }
     }
 
     @Test
     void shouldSaveBookmark() {
         boolean result = bookmarkRepository.saveBookmark(getBookmark("content"));
+
         assertTrue(result);
     }
+
     @Test
-    void shouldFindBookmarks() throws InterruptedException, IOException {
+    void shouldFindBookmarks() throws IOException {
         bookmarkRepository.saveBookmark(getBookmark("content"));
         bookmarkRepository.saveBookmark(getBookmark("conent"));
         bookmarkRepository.saveBookmark(getBookmark("content"));
         bookmarkRepository.saveBookmark(getBookmark("something"));
         elasticsearchClient.indices().refresh();
+
         List<BookmarkData> result = bookmarkRepository.searchForBookmark("content");
-        for(var data : result) {
-            System.out.println(data.getContent());
-        }
+
         assertThat(result, hasSize(3));
     }
 

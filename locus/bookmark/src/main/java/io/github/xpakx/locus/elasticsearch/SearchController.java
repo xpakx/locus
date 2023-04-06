@@ -1,6 +1,7 @@
 package io.github.xpakx.locus.elasticsearch;
 
 import io.github.xpakx.locus.bookmark.BookmarkData;
+import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class SearchController {
 
     @GetMapping
     @ResponseBody
-    public List<BookmarkData> searchContent(@RequestParam String searchString) {
+    public List<BookmarkDto> searchContent(@RequestParam String searchString) {
         return service.searchForBookmark(searchString);
     }
 }

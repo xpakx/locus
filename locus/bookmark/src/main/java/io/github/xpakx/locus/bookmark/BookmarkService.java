@@ -1,5 +1,6 @@
 package io.github.xpakx.locus.bookmark;
 
+import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import io.github.xpakx.locus.bookmark.error.NotFoundException;
 import io.github.xpakx.locus.downloader.WebpageDownloader;
@@ -17,12 +18,12 @@ public class BookmarkService {
     private final List<WebpageDownloader> downloaders;
 
     @SaveToElasticSearch
-    public Bookmark addBookmark(BookmarkRequest request) {
+    public BookmarkDto addBookmark(BookmarkRequest request) {
         Bookmark bookmark = new Bookmark();
         bookmark.setUrl(request.url());
         bookmark.setDate(LocalDate.now());
         bookmark.setContent(extractContent(request.url()));
-        return bookmarkRepository.save(bookmark);
+        return BookmarkDto.of(bookmarkRepository.save(bookmark));
     }
 
     private String extractContent(String url) {
@@ -33,9 +34,11 @@ public class BookmarkService {
                 .orElse("");
     }
 
-    public Bookmark getBookmarkById(Long id) {
-        return bookmarkRepository
+    public BookmarkDto getBookmarkById(Long id) {
+        return BookmarkDto.of(
+                bookmarkRepository
                 .findById(id)
-                .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)));
+                .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)))
+        );
     }
 }
