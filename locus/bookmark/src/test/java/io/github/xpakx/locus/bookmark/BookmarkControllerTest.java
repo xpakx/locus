@@ -171,6 +171,19 @@ class BookmarkControllerTest {
                 .body("content", equalTo("content"));
     }
 
+    @Test
+    void shouldNotReturnBookmarkIfUserIsNotOwner()  {
+        Long bookmarkId = addBookmark("http://example.com", "content", "user2");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+        .when()
+                .get(baseUrl + "/{bookmarkId}", bookmarkId)
+        .then()
+                .log().body()
+                .statusCode(FORBIDDEN.value());
+    }
+
     private Long addBookmark(String url, String content) {
         return addBookmark(url, content, "");
     }
