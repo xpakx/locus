@@ -25,7 +25,7 @@ public abstract class GenericESRepository<T> {
         );
     }
 
-    protected SearchResponse<T> doFuzzySearchWithField(String searchString, String field, String requiredField, String requiredValue) throws IOException {
+    protected SearchResponse<T> doFuzzySearchWithRequiredField(String searchString, String searchField, String requiredField, String requiredValue) throws IOException {
         return elasticsearchClient.search(s -> s
                         .index(index)
                         .query(q -> q
@@ -38,7 +38,7 @@ public abstract class GenericESRepository<T> {
                                         )
                                         .should(m -> m
                                                 .fuzzy(f -> f
-                                                        .field(field)
+                                                        .field(searchField)
                                                         .value(searchString)
                                                 )
                                         )
