@@ -1,17 +1,19 @@
 package io.github.xpakx.locus.bookmark.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.xpakx.locus.bookmark.Bookmark;
 import io.github.xpakx.locus.bookmark.BookmarkData;
 
 import java.time.LocalDate;
 
-public record BookmarkDto(Long id, String url, LocalDate date, String content) {
+public record BookmarkDto(Long id, String url, LocalDate date, String content, @JsonIgnore String owner) {
     public static BookmarkDto of(Bookmark bookmark) {
         return new BookmarkDto(
                 bookmark.getId(),
                 bookmark.getUrl(),
                 bookmark.getDate(),
-                bookmark.getContent()
+                bookmark.getContent(),
+                bookmark.getOwner()
         );
     }
 
@@ -20,7 +22,8 @@ public record BookmarkDto(Long id, String url, LocalDate date, String content) {
                 bookmark.getDbId(),
                 bookmark.getUrl(),
                 bookmark.getDate(),
-                bookmark.getContent()
+                bookmark.getContent(),
+                ""
         );
     }
 }

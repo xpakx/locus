@@ -21,4 +21,6 @@ public class Bookmark {
 
     @Column(columnDefinition="TEXT")
     private String content;
+
+    private String owner;
 }

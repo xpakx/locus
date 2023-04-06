@@ -158,7 +158,7 @@ class BookmarkControllerTest {
 
     @Test
     void shouldReturnBookmark()  {
-        Long bookmarkId = addBookmark("http://example.com", "content");
+        Long bookmarkId = addBookmark("http://example.com", "content", "user1");
         given()
                 .auth()
                 .oauth2(tokenFor("user1"))
@@ -172,10 +172,15 @@ class BookmarkControllerTest {
     }
 
     private Long addBookmark(String url, String content) {
+        return addBookmark(url, content, "");
+    }
+
+    private Long addBookmark(String url, String content, String owner) {
         Bookmark bookmark = new Bookmark();
         bookmark.setContent(content);
         bookmark.setDate(LocalDate.now());
         bookmark.setUrl(url);
+        bookmark.setOwner(owner);
         return bookmarkRepository.save(bookmark).getId();
     }
 }

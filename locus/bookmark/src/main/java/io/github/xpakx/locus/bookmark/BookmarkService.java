@@ -18,11 +18,12 @@ public class BookmarkService {
     private final List<WebpageDownloader> downloaders;
 
     @SaveToElasticSearch
-    public BookmarkDto addBookmark(BookmarkRequest request) {
+    public BookmarkDto addBookmark(BookmarkRequest request, String username) {
         Bookmark bookmark = new Bookmark();
         bookmark.setUrl(request.url());
         bookmark.setDate(LocalDate.now());
         bookmark.setContent(extractContent(request.url()));
+        bookmark.setOwner(username);
         return BookmarkDto.of(bookmarkRepository.save(bookmark));
     }
 
@@ -37,8 +38,8 @@ public class BookmarkService {
     public BookmarkDto getBookmarkById(Long id) {
         return BookmarkDto.of(
                 bookmarkRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)))
+                        .findById(id)
+                        .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)))
         );
     }
 }
