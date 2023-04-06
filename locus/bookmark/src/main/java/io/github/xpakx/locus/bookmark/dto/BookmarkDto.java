@@ -19,7 +19,7 @@ public record BookmarkDto(Long id, String url, LocalDate date, String content) {
         return new BookmarkDto(
                 bookmark.getDbId(),
                 bookmark.getUrl(),
-                null,
+                bookmark.getDate(),
                 bookmark.getContent()
         );
     }

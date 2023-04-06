@@ -6,6 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+
+import java.time.LocalDate;
 
 @Document(indexName = "bookmarks")
 @Getter
@@ -21,4 +24,7 @@ public class BookmarkData {
 
     @Field(type = FieldType.Text, name = "url")
     private String url;
+
+    @Field(type = FieldType.Date, format = DateFormat.date)
+    private LocalDate date;
 }
