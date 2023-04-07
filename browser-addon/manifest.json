@@ -9,6 +9,9 @@
       "js": ["main.js"],
       "run_at": "document_start"
     }
+  ],
+  "web_accessible_resources": [
+    "main.html", "style.css", "icons/*"
   ]
 }
 
