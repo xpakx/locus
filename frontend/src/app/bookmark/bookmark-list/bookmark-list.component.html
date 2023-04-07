@@ -1,0 +1,6 @@
+<div class="bookmarks-container">
+    <span class="error-message" *ngIf="isError">{{ errorMsg }}</span>
+    <div class="bookmark-list">
+        <app-bookmark *ngFor="let bookmark of bookmarks" [bookmark]="bookmark"></app-bookmark>
+    </div>
+</div>

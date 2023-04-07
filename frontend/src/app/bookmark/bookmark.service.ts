@@ -28,4 +28,8 @@ export class BookmarkService extends JwtService {
     let params = new HttpParams().set('searchString', searchString);
     return this.http.get<Bookmark[]>(`${this.apiUrl}/bookmarks/${searchString}`, { headers: this.getHeaders(), params: params });
   }
+
+  public getAllBookmarks(): Observable<Bookmark[]> {
+    return this.http.get<Bookmark[]>(`${this.apiUrl}/bookmarks/all`, { headers: this.getHeaders() });
+  }
 }
