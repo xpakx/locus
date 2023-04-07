@@ -6,17 +6,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './main/nav/nav.component';
 import { SidebarComponent } from './main/sidebar/sidebar.component';
+import { AddBookmarkFormComponent } from './bookmark/add-bookmark-form/add-bookmark-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    SidebarComponent
+    SidebarComponent,
+    AddBookmarkFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

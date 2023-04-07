@@ -1,0 +1,7 @@
+<form id="bookmark-form" [formGroup]="form">
+    <input type="text" id="url" formControlName="url">
+    <span class="error-message" *ngIf="isError">{{ errorMsg }}</span>
+    <button class="btn" [disabled]="form.invalid" (click)="onSubmit()">
+        Add
+    </button>
+</form>
