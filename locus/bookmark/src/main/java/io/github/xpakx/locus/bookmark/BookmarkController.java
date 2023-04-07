@@ -2,6 +2,7 @@ package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
+import io.github.xpakx.locus.bookmark.dto.BooleanResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,11 @@ public class BookmarkController {
     @ResponseBody
     public List<BookmarkDto> getBookmarkById(Principal principal) {
         return bookmarkService.getBookmarks(0, 20, principal.getName()).getContent();
+    }
+
+    @GetMapping("/check")
+    @ResponseBody
+    public BooleanResponse checkBookmarkExistence(@PathVariable String url, Principal principal) {
+        return bookmarkService.checkBookmarkForUrl(url, principal.getName());
     }
 }
