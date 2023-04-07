@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +26,11 @@ public class BookmarkController {
     @PostAuthorize("returnObject.owner == authentication.principal.username")
     public BookmarkDto getBookmarkById(@PathVariable Long bookmarkId) {
         return bookmarkService.getBookmarkById(bookmarkId);
+    }
+
+    @GetMapping("/all")
+    @ResponseBody
+    public List<BookmarkDto> getBookmarkById(Principal principal) {
+        return bookmarkService.getBookmarks(0, 20, principal.getName()).getContent();
     }
 }

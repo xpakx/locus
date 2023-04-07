@@ -6,6 +6,9 @@ import io.github.xpakx.locus.bookmark.error.NotFoundException;
 import io.github.xpakx.locus.downloader.WebpageDownloader;
 import io.github.xpakx.locus.elasticsearch.SaveToElasticSearch;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,6 +43,17 @@ public class BookmarkService {
                 bookmarkRepository
                         .findById(id)
                         .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)))
+        );
+    }
+
+    public Page<BookmarkDto> getBookmarks(Integer page, Integer amount, String username) {
+        return bookmarkRepository.findByOwner(
+                username,
+                PageRequest.of(
+                        page,
+                        amount,
+                        Sort.by(Sort.Order.asc("date"))
+                )
         );
     }
 }
