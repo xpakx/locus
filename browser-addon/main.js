@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   .then(response => response.text())
   .then(html => {
     var toolbar = document.createElement("div");
-    toolbar.classList.add("locus");
+    toolbar.classList.add("locus-wzHfKco");
     toolbar.innerHTML = html;
     document.body.insertBefore(toolbar, document.body.firstChild);
   });

@@ -7,7 +7,7 @@
     --separator-color: rgba(230, 221, 221, 0.75);
 }
 
-.locus {
+.locus-wzHfKco {
     position: fixed;
     right: 0;
     z-index: 999;
@@ -16,11 +16,11 @@
     box-sizing: revert;
 }
 
-.locus * {
+.locus-wzHfKco * {
     box-sizing: revert;
 }
 
-.sidebar-outer {
+.sidebar-outer-GfnoD5B {
     position: sticky;
     line-height: normal;
     text-align: start;
@@ -32,7 +32,7 @@
     transition: all 0.1s cubic-bezier(0.4, 0, 0.16, 0.87) 0s;
 }
 
-.sidebar-inner {
+.sidebar-inner-WES8QP5 {
     width: 44px;
     display: flex;
     flex-direction: column;
@@ -46,18 +46,14 @@
     background-image: linear-gradient(#494852, #2A2A30);
 }
 
-.upper {
-    width: 100%;
-}
-
-.separator {
+.separator-hWywm4i {
     width: 100%;
     margin: 5px 0px;
     height: 1px;
     background-image: -webkit-linear-gradient(left, transparent, var(--separator-color), transparent);
 }
 
-.actions {
+.actions-wi5c6nz {
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -67,11 +63,11 @@
     padding: 8px 0px;
 }
 
-.icon-container {
+.icon-container-DAD7V6u {
     position: relative;
 }
 
-.icon-outer {
+.icon-outer-pbyXUVV {
     padding: 3px;
     display: flex;
     border-radius: 5px;
@@ -80,11 +76,11 @@
     align-items: center;
 }
 
-.icon-outer:hover .icon {
+.icon-outer-pbyXUVV:hover .icon-5nouv56 {
     background-color: var(--icon-hover-color);
 }
 
-.icon {
+.icon-5nouv56 {
     height: 20px;
     width: 20px;
     cursor: pointer;
@@ -97,23 +93,23 @@
     mask-repeat: no-repeat;
 }
 
-.heart {
+.heart.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart.svg);
     mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart.svg);
 }
 
-.heart.fav {
+.heart.fav.icon-5nouv56 {
     background-color: rgb(106, 227, 148);
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart-full.svg);
     mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart-full.svg);
 }
 
-.search {
+.search.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/search.svg);
     mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/search.svg);
 }
 
-.close {
+.close.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
     mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
 }
