@@ -46,6 +46,10 @@
     background-image: linear-gradient(#494852, #2A2A30);
 }
 
+.top-container-d35Uhmd {
+    width: 100%;
+}
+
 .separator-hWywm4i {
     width: 100%;
     margin: 5px 0px;
@@ -112,4 +116,64 @@
 .close.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
     mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
+}
+
+
+
+/***********
+ * HAL 9000
+ ***********/
+
+.hal-Kt2XHbT {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+}
+
+.ring-Wsx9272 {
+    border: 2px solid #FFFFFF;
+    width: 20px;
+    height: 20px;
+    border-top: 2px solid #b8ccd7;
+    padding: 2px;
+    box-shadow: 0 -2px 0 #6d93a6;
+    border-color: #43637c;
+    background-color: #333;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.light-d2yc7AS {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    border: 2px solid rgb(226, 6, 6);
+    border-radius: 50%;
+    background-color: rgb(226, 6, 6);
+    box-shadow: 0px 0px 4px 5px rgba(226, 6, 6, 0.4), 
+                0px 0px 2px 2px rgba(226, 6, 6, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.4);
+        box-shadow: 0px 0px 4px 2px rgba(226, 6, 6, 0.3), 
+                    0px 0px 2px 1px rgba(226, 6, 6, 0.6);
+    }
+    50% {
+        transform: scale(0.5);
+        box-shadow: 0px 0px 6px 5px rgba(226, 6, 6, 0.5), 
+                    0px 0px 4px 2px rgba(226, 6, 6, 1);
+    }
+    100% {
+        transform: scale(0.4);
+        box-shadow: 0px 0px 4px 2px rgba(226, 6, 6, 0.3), 
+                    0px 0px 2px 1px rgba(226, 6, 6, 0.6);
+    }
 }
