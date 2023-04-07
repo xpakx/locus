@@ -1,1 +1,11 @@
-<p>nav works!</p>
+<div class="nav-container">
+
+    <div class="search-container">
+        <form id="search-form" [formGroup]="form">
+            <input type="text" id="searchString" formControlName="value">
+            <button class="btn" [disabled]="form.invalid" (click)="onSubmit()">
+                Search
+            </button>
+        </form>
+    </div>
+</div>

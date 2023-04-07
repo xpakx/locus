@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'locus';
+  searchString = "";
+
+  onSearch(eventString: string) {
+    this.searchString = eventString;
+  }
 }
