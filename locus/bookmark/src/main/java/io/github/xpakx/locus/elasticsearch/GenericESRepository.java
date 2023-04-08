@@ -3,14 +3,27 @@ package io.github.xpakx.locus.elasticsearch;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-@RequiredArgsConstructor
 public abstract class GenericESRepository<T> {
     private final ElasticsearchClient elasticsearchClient;
     private final Class<T> clazz;
     private final String index;
+    Logger logger = LoggerFactory.getLogger(GenericESRepository.class);
+
+    public GenericESRepository(ElasticsearchClient elasticsearchClient, Class<T> clazz, String index) {
+        this.elasticsearchClient = elasticsearchClient;
+        this.clazz = clazz;
+        this.index = index;
+        try {
+            createIndex();
+        } catch(IOException ex) {
+            logger.info("Elasticsearch index already created");
+        }
+    }
 
     protected SearchResponse<T> doFuzzySearch(String searchString, String field) throws IOException {
         return elasticsearchClient.search(s -> s
