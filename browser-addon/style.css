@@ -7,6 +7,10 @@
     --separator-color: rgba(230, 221, 221, 0.75);
 }
 
+/***********
+ * Layout
+ ***********/
+
 .locus-wzHfKco {
     position: fixed;
     right: 0;
@@ -67,6 +71,10 @@
     padding: 8px 0px;
 }
 
+/***********
+ * Icons
+ ***********/
+
 .icon-container-DAD7V6u {
     position: relative;
 }
@@ -99,26 +107,24 @@
 
 .heart.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart.svg);
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/heart.svg);
 }
 
 .heart.fav.icon-5nouv56 {
     background-color: rgb(106, 227, 148);
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart-full.svg);
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart-full.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/heart-full.svg);
 }
 
 .search.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/search.svg);
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/search.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/search.svg);
 }
 
 .close.icon-5nouv56 {
     -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/close.svg);
 }
-
-
 
 /***********
  * HAL 9000
@@ -146,7 +152,6 @@
     position: relative;
     overflow: hidden;
 }
-
 
 .light-d2yc7AS {
     width: 10px;
