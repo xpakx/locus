@@ -1,9 +1,7 @@
 package io.github.xpakx.locus.importing;
 
-import io.github.xpakx.locus.bookmark.Bookmark;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
