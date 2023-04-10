@@ -3,7 +3,6 @@ package io.github.xpakx.locus.elasticsearch;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import io.github.xpakx.locus.bookmark.Bookmark;
 import io.github.xpakx.locus.elasticsearch.error.ESException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -46,8 +45,12 @@ public class BookmarkESRepository extends GenericESRepository<BookmarkData> {
         }
     }
 
+    @Override
     public void saveAll(List<BookmarkData> bookmarks) {
-        bookmarks
-                .forEach(this::saveBookmark); //TODO: bulk insert
+        try {
+            super.saveAll(bookmarks);
+        } catch(IOException ex) {
+            System.out.println(ex);
+        }
     }
 }

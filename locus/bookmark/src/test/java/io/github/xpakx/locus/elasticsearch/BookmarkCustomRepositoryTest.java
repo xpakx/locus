@@ -81,4 +81,20 @@ class BookmarkCustomRepositoryTest {
 
         assertThat(result, hasSize(2));
     }
+
+    @Test
+    void shouldSaveBookmarks() throws IOException {
+        bookmarkRepository.saveAll(
+                List.of(
+                        getBookmark("bookmark`", "user1"),
+                        getBookmark("bookmark2", "user1"),
+                        getBookmark("bookmark3", "user1"),
+                        getBookmark("bookmark4", "user1")
+                )
+        );
+        elasticsearchClient.indices().refresh();
+        List<BookmarkData> result = bookmarkRepository.searchForUserBookmark("bookmark", "user1");
+
+        assertThat(result, hasSize(4));
+    }
 }

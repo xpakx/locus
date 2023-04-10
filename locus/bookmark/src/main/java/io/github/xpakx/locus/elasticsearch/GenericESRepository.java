@@ -1,12 +1,14 @@
 package io.github.xpakx.locus.elasticsearch;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public abstract class GenericESRepository<T> {
     private final ElasticsearchClient elasticsearchClient;
@@ -20,8 +22,10 @@ public abstract class GenericESRepository<T> {
         this.index = index;
         try {
             createIndex();
-        } catch(IOException ex) {
-            logger.info("Elasticsearch index already created");
+        } catch (IOException ex) {
+            logger.info("Problem with connection", ex);
+        } catch (ElasticsearchException ex) {
+            logger.info("Elasticsearch index already exists", ex);
         }
     }
 
@@ -93,5 +97,19 @@ public abstract class GenericESRepository<T> {
         elasticsearchClient.indices().create(d -> d
                 .index(index)
         );
+    }
+
+    public void saveAll(List<BookmarkData> bookmarks) throws IOException {
+        BulkRequest.Builder br = new BulkRequest.Builder();
+        bookmarks.forEach(b ->
+                br.operations(op -> op
+                        .index(idx -> idx
+                                .index(index)
+                                .document(b)
+                        )
+                )
+        );
+        elasticsearchClient
+                .bulk(br.build());
     }
 }
