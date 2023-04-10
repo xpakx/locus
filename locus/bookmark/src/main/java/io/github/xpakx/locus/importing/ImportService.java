@@ -40,6 +40,16 @@ public class ImportService {
         }
     }
 
+    public boolean saveBookmarksFromJson(List<BookmarkRequest> request, String username) {
+        bookmarkRepository.saveAll(
+                request
+                        .stream()
+                        .map((a) -> toBookmark(a, username))
+                        .toList()
+        );
+        return true;
+    }
+
     private Bookmark toBookmark(BookmarkRequest request, String username) {
         Bookmark bookmark = new Bookmark();
         bookmark.setUrl(request.url());
