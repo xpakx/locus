@@ -26,8 +26,14 @@ public abstract class GenericESRepository<T> {
     }
 
     protected SearchResponse<T> doFuzzySearch(String searchString, String field) throws IOException {
+        return doFuzzySearch(searchString, field, 0, 20);
+    }
+
+    protected SearchResponse<T> doFuzzySearch(String searchString, String field, int from, int size) throws IOException {
         return elasticsearchClient.search(s -> s
                         .index(index)
+                        .from(from)
+                        .size(size)
                         .query(q -> q
                                 .fuzzy(f -> f
                                         .field(field)
@@ -39,8 +45,14 @@ public abstract class GenericESRepository<T> {
     }
 
     protected SearchResponse<T> doFuzzySearchWithRequiredField(String searchString, String searchField, String requiredField, String requiredValue) throws IOException {
+        return doFuzzySearchWithRequiredField(searchString, searchField, requiredField, requiredValue, 0, 20);
+    }
+
+    protected SearchResponse<T> doFuzzySearchWithRequiredField(String searchString, String searchField, String requiredField, String requiredValue, int from, int size) throws IOException {
         return elasticsearchClient.search(s -> s
                         .index(index)
+                        .from(from)
+                        .size(size)
                         .query(q -> q
                                 .bool(b -> b
                                         .must(m -> m
