@@ -20,7 +20,7 @@ public class ImportController {
     public boolean uploadFiles(@RequestParam("file") MultipartFile file, Principal principal) {
         return service.saveBookmarksFromHtml(file, principal.getName());
     }
-    
+
     @PostMapping("/json")
     @ResponseBody
     public boolean uploadBookmarks(@RequestBody List<BookmarkRequest> request, Principal principal) {
