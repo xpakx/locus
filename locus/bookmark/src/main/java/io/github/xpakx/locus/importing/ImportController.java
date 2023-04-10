@@ -1,5 +1,6 @@
 package io.github.xpakx.locus.importing;
 
+import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -17,13 +18,13 @@ public class ImportController {
 
     @PostMapping("/html")
     @ResponseBody
-    public boolean uploadFiles(@RequestParam("file") MultipartFile file, Principal principal) {
+    public List<BookmarkDto> uploadFiles(@RequestParam("file") MultipartFile file, Principal principal) {
         return service.saveBookmarksFromHtml(file, principal.getName());
     }
 
     @PostMapping("/json")
     @ResponseBody
-    public boolean uploadBookmarks(@RequestBody List<BookmarkRequest> request, Principal principal) {
+    public List<BookmarkDto> uploadBookmarks(@RequestBody List<BookmarkRequest> request, Principal principal) {
         return service.saveBookmarksFromJson(request, principal.getName());
     }
 }

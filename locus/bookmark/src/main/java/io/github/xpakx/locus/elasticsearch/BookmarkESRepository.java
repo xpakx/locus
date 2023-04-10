@@ -46,20 +46,8 @@ public class BookmarkESRepository extends GenericESRepository<BookmarkData> {
         }
     }
 
-    public void saveAll(List<Bookmark> bookmarks) {
+    public void saveAll(List<BookmarkData> bookmarks) {
         bookmarks
-                .stream()
-                .map(this::toBookmarkData)
                 .forEach(this::saveBookmark); //TODO: bulk insert
-    }
-
-    private BookmarkData toBookmarkData(Bookmark bookmark) {
-        BookmarkData data = new BookmarkData();
-        data.setContent(bookmark.getContent());
-        data.setDbId(bookmark.getId());
-        data.setUrl(bookmark.getUrl());
-        data.setDate(bookmark.getDate());
-        data.setOwner(bookmark.getOwner());
-        return data;
     }
 }
