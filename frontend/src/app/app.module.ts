@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookmarkListComponent } from './bookmark/bookmark-list/bookmark-list.component';
 import { BookmarkComponent } from './bookmark/bookmark/bookmark.component';
 import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './auth/login/login.component';
     AddBookmarkFormComponent,
     BookmarkListComponent,
     BookmarkComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
