@@ -10,6 +10,7 @@ import { AddBookmarkFormComponent } from './bookmark/add-bookmark-form/add-bookm
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookmarkListComponent } from './bookmark/bookmark-list/bookmark-list.component';
 import { BookmarkComponent } from './bookmark/bookmark/bookmark.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BookmarkComponent } from './bookmark/bookmark/bookmark.component';
     SidebarComponent,
     AddBookmarkFormComponent,
     BookmarkListComponent,
-    BookmarkComponent
+    BookmarkComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
