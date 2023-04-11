@@ -99,9 +99,9 @@ public abstract class GenericESRepository<T> {
         );
     }
 
-    public void saveAll(List<BookmarkData> bookmarks) throws IOException {
+    public void saveAll(List<T> list) throws IOException {
         BulkRequest.Builder br = new BulkRequest.Builder();
-        bookmarks.forEach(b ->
+        list.forEach(b ->
                 br.operations(op -> op
                         .index(idx -> idx
                                 .index(index)

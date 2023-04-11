@@ -1,0 +1,27 @@
+server:
+  port: 8000
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/authenticate,/api/v1/register
+        - id: bookmark
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/bookmarks/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+              - "GET"
+              - "POST"
+              - "PUT"
+              - "OPTIONS"
+logging:
+  level:
+    org.springframework.cloud.gateway.handler.predicate: trace
