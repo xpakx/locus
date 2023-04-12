@@ -31,7 +31,7 @@ public class BookmarkController {
 
     @GetMapping("/all")
     @ResponseBody
-    public List<BookmarkDto> getBookmarkById(Principal principal) {
+    public List<BookmarkDto> getBookmark(Principal principal) {
         return bookmarkService.getBookmarks(0, 20, principal.getName()).getContent();
     }
 

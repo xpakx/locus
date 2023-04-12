@@ -12,6 +12,10 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     Page<BookmarkDto> findByOwner(String owner, Pageable pageable);
 
+    Page<BookmarkDto> findByOwnerAndTagsName(String owner, String tag, Pageable pageable);
+
+
+
     boolean existsByUrlAndOwner(String url, String owner);
 
 }

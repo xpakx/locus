@@ -1,11 +1,13 @@
 package io.github.xpakx.locus.bookmark;
 
+import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.TagDto;
 import io.github.xpakx.locus.bookmark.dto.TagRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tags/bookmarks")
@@ -17,6 +19,12 @@ public class TagController {
     @ResponseBody
     public TagDto addTag(@RequestBody TagRequest request, Principal principal) {
         return service.addTag(request, principal.getName());
+    }
+
+    @GetMapping("/{tagName}")
+    @ResponseBody
+    public List<BookmarkDto> getBookmark(String tagName, Principal principal) {
+        return service.getBookmarksTaggedAs(0, 20, tagName, principal.getName()).getContent();
     }
 
 }
