@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,4 +24,11 @@ public class Bookmark {
     private String content;
 
     private String owner;
+
+    @ManyToMany
+    @JoinTable(
+            name = "bookmark_tags",
+            joinColumns = @JoinColumn(name = "bookmark_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 }
