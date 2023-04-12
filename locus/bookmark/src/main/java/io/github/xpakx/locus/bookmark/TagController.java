@@ -17,13 +17,13 @@ public class TagController {
 
     @PostMapping
     @ResponseBody
-    public TagDto addTag(@RequestBody TagRequest request, Principal principal) {
-        return service.addTag(request, principal.getName());
+    public BookmarkDto addTag(@RequestBody TagRequest request, @PathVariable Long bookmarkId, Principal principal) {
+        return service.addTag(request, principal.getName(), bookmarkId);
     }
 
     @GetMapping("/{tagName}")
     @ResponseBody
-    public List<BookmarkDto> getBookmark(String tagName, Principal principal) {
+    public List<BookmarkDto> getBookmark(@PathVariable String tagName, Principal principal) {
         return service.getBookmarksTaggedAs(0, 20, tagName, principal.getName()).getContent();
     }
 
