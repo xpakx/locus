@@ -1,7 +1,6 @@
 package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
-import io.github.xpakx.locus.bookmark.dto.TagDto;
 import io.github.xpakx.locus.bookmark.dto.TagRequest;
 import io.github.xpakx.locus.bookmark.error.NotFoundException;
 import jakarta.transaction.Transactional;
@@ -28,6 +27,7 @@ public class TagService {
                 .orElse(createNewTag(request, username));
         bookmark.getTags().add(tag);
         return BookmarkDto.of(bookmarkRepository.save(bookmark));
+        //TODO: optimize
     }
 
     private Tag createNewTag(TagRequest request, String username) {
