@@ -25,9 +25,8 @@ public class TagService {
         }
         Tag tag = tagRepository.findByName(request.name())
                 .orElse(createNewTag(request, username));
-        bookmark.getTags().add(tag);
-        return BookmarkDto.of(bookmarkRepository.save(bookmark));
-        //TODO: optimize
+        tagRepository.tagBookmark(bookmark.getId(), tag.getId());
+        return BookmarkDto.of(bookmark);
     }
 
     private Tag createNewTag(TagRequest request, String username) {
