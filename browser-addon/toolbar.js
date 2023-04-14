@@ -1,4 +1,4 @@
-const apiUri = "http://localhost:8000/api/v1"
+const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
 
 document.addEventListener('DOMContentLoaded', function () {
