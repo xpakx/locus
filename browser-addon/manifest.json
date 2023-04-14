@@ -19,5 +19,8 @@
     "default_icon": "icons/app-icon-32.png",
     "default_title": "Locus",
     "default_popup": "toolbar.html"
-  }
+  },
+  "permissions": [
+    "storage"
+  ]
 }

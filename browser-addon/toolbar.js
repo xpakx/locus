@@ -1,4 +1,5 @@
 const apiUri = "http://localhost:8000/api/v1"
+const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
 
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("login-form").addEventListener("submit", function (event) {
@@ -19,11 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.token) {
-                    browser.storage.local.set({ token: data.token });
-                }
-                if (data.username) {
-                    browser.storage.local.set({ username: data.username });
+                if (data.token && data.username) {
+                    storage.local.set({
+                        token: data.token,
+                        username: data.username
+                    });
                 }
             })
             .catch(error => console.error(error));
