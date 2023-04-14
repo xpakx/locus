@@ -1,0 +1,17 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+input[type="text"],
+input[type="password"],
+button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+button {
+  background-image: linear-gradient(#494852, #2A2A30);
+}
