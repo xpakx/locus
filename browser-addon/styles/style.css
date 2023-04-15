@@ -131,6 +131,11 @@
     mask-image: url(moz-extension://__MSG_@@extension_id__/icons/close.svg);
 }
 
+.highlight.icon-5nouv56 {
+    -webkit-mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/highlight.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/highlight.svg);
+}
+
 /***********
  * HAL 9000
  ***********/
@@ -197,8 +202,27 @@
 .locus-highlighter {
     position: absolute;
     display: none;
-    width: 50px;
-    height: 50px;
-    background-image: var(--metalic-gradient);
+    height: 30px;
     transform: translateX(-50%);
+    border: 2px solid var(--sidebar-border-color);
+    border-radius: 15px;
+    box-shadow: var(--sidebar-shadow-color) 0px 1px 1px 2px;
+    background: var(--background-color);
+    overflow: hidden;
+    z-index: 999;
+}
+
+.highlighter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px;
+    height: 100%;
+    background-image: var(--metalic-gradient);
+}
+
+.highlighter .icon-5nouv56 {
+    height: 15px;
+    width: 15px;
 }
