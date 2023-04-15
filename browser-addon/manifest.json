@@ -6,24 +6,24 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["main.js"],
+      "js": ["scripts/main.js"],
       "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
-    "main.html", 
-    "style.css", 
+    "pages/main.html", 
+    "styles/style.css", 
     "icons/*"
   ],
   "browser_action": {
     "default_icon": "icons/app-icon-32.png",
     "default_title": "Locus",
-    "default_popup": "toolbar.html"
+    "default_popup": "pages/toolbar.html"
   },
   "permissions": [
     "storage", "tabs"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "scripts/background.js"
   }
 }

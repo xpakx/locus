@@ -13,7 +13,7 @@ storage.local.get('token', function (result) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch(chrome.extension.getURL("main.html"))
+  fetch(chrome.extension.getURL("pages/main.html"))
     .then(response => response.text())
     .then(html => {
       var toolbar = document.createElement("div");
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const searchButton = toolbar.querySelector('.search').parentElement.parentElement;
       searchButton.addEventListener('click', function (event) {
         console.log('Search button clicked');
-        runtime.sendMessage({action: "open_tab", url: "search.html"});
+        runtime.sendMessage({action: "open_tab", url: "pages/search.html"});
       });
 
       const closeButton = toolbar.querySelector('.close').parentElement.parentElement;
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
       
     });
 
-  fetch(chrome.extension.getURL("style.css"))
+  fetch(chrome.extension.getURL("styles/style.css"))
     .then(response => response.text())
     .then(css => {
       var style = document.createElement("style");
