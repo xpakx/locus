@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const heartButton = heartIcon.parentElement.parentElement;
       heartButton.addEventListener('click', function (event) {
         console.log('Bookmark button clicked');
-        if(!bookmarked) {
+        if (!bookmarked) {
           addBookmark();
         }
       });
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const searchButton = toolbar.querySelector('.search').parentElement.parentElement;
       searchButton.addEventListener('click', function (event) {
         console.log('Search button clicked');
-        runtime.sendMessage({action: "open_tab", url: "pages/search.html"});
+        runtime.sendMessage({ action: "open_tab", url: "pages/search.html" });
       });
 
       const closeButton = toolbar.querySelector('.close').parentElement.parentElement;
@@ -46,7 +46,31 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Close button clicked');
         toolbar.classList.add('hidden');
       });
-      
+
+    });
+
+
+  fetch(chrome.extension.getURL("pages/highlighter.html"))
+    .then(response => response.text())
+    .then(html => {
+
+      var hl = document.createElement("div");
+      hl.classList.add("locus-highlighter");
+      hl.innerHTML = html;
+      document.body.insertBefore(hl, document.body.firstChild);
+
+      document.addEventListener("mouseup", function () {
+        var selection = window.getSelection();
+        if (selection.toString().length > 0) {
+          var range = selection.getRangeAt(0);
+          var rect = range.getBoundingClientRect();
+          hl.style.left = (rect.left + rect.right)/2 + "px";
+          hl.style.top = (rect.bottom + 10) + "px";
+          hl.style.display = "block";
+        } else {
+          hl.style.display = "none";
+        }
+      });
     });
 
   fetch(chrome.extension.getURL("styles/style.css"))
@@ -102,7 +126,7 @@ function addBookmark() {
     },
     body: JSON.stringify({
       url: url
-  })
+    })
   })
     .then(response => response.json())
     .then(data => {

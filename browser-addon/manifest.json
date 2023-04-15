@@ -12,6 +12,7 @@
   ],
   "web_accessible_resources": [
     "pages/main.html", 
+    "pages/highlighter.html", 
     "styles/style.css", 
     "icons/*"
   ],

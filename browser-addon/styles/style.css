@@ -5,6 +5,7 @@
     --icon-color: #bbb3b3;
     --icon-hover-color: #F2F2F2;
     --separator-color: rgba(230, 221, 221, 0.75);
+    --metalic-gradient: linear-gradient(#494852, #2A2A30);
 }
 
 /***********
@@ -51,7 +52,7 @@
     border-radius: 15px;
     box-shadow: var(--sidebar-shadow-color) 0px 3px 3px 5px;
     background: var(--background-color);
-    background-image: linear-gradient(#494852, #2A2A30);
+    background-image: var(--metalic-gradient);
 }
 
 .top-container-d35Uhmd {
@@ -187,4 +188,17 @@
         box-shadow: 0px 0px 4px 2px rgba(226, 6, 6, 0.3),
             0px 0px 2px 1px rgba(226, 6, 6, 0.6);
     }
+}
+
+/***********
+ * Highlighter
+ ***********/
+
+.locus-highlighter {
+    position: absolute;
+    display: none;
+    width: 50px;
+    height: 50px;
+    background-image: var(--metalic-gradient);
+    transform: translateX(-50%);
 }
