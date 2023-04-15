@@ -21,6 +21,9 @@
     "default_popup": "toolbar.html"
   },
   "permissions": [
-    "storage"
-  ]
+    "storage", "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

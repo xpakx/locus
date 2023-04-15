@@ -1,5 +1,6 @@
 const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
+const runtime = typeof browser !== "undefined" ? browser.runtime : chrome.runtime;
 const url = window.location.href;
 var token = null;
 var heartIcon = null;
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (token) {
         checkBookmark();
       }
+      console.log(chrome);
 
       const heartButton = heartIcon.parentElement.parentElement;
       heartButton.addEventListener('click', function (event) {
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const searchButton = toolbar.querySelector('.search').parentElement.parentElement;
       searchButton.addEventListener('click', function (event) {
         console.log('Search button clicked');
+        runtime.sendMessage({action: "open_tab", url: "search.html"});
       });
 
       const closeButton = toolbar.querySelector('.close').parentElement.parentElement;
