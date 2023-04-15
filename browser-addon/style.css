@@ -36,6 +36,10 @@
     transition: all 0.1s cubic-bezier(0.4, 0, 0.16, 0.87) 0s;
 }
 
+.locus-wzHfKco.hidden .sidebar-outer-GfnoD5B {
+    transform: translateX(100%);
+}
+
 .sidebar-inner-WES8QP5 {
     width: 44px;
     display: flex;

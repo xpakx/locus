@@ -2,6 +2,8 @@ const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
 const url = window.location.href;
 var token = null;
+var heartIcon = null;
+var bookmarked = false;
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -17,6 +19,31 @@ document.addEventListener('DOMContentLoaded', function () {
       toolbar.classList.add("locus-wzHfKco");
       toolbar.innerHTML = html;
       document.body.insertBefore(toolbar, document.body.firstChild);
+
+      heartIcon = toolbar.querySelector('.heart');
+      if (token) {
+        checkBookmark();
+      }
+
+      const heartButton = heartIcon.parentElement.parentElement;
+      heartButton.addEventListener('click', function (event) {
+        console.log('Bookmark button clicked');
+        if(!bookmarked) {
+          addBookmark();
+        }
+      });
+
+      const searchButton = toolbar.querySelector('.search').parentElement.parentElement;
+      searchButton.addEventListener('click', function (event) {
+        console.log('Search button clicked');
+      });
+
+      const closeButton = toolbar.querySelector('.close').parentElement.parentElement;
+      closeButton.addEventListener('click', function (event) {
+        console.log('Close button clicked');
+        toolbar.classList.add('hidden');
+      });
+      
     });
 
   fetch(chrome.extension.getURL("style.css"))
@@ -27,9 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
       document.head.insertAdjacentElement('beforeend', style);
     });
 
-  if (token) {
-    checkBookmark();
-  }
+
 
   storage.onChanged.addListener(function (changes, areaName) {
     if (areaName === "local" && changes.token) {
@@ -56,7 +81,30 @@ function checkBookmark() {
     .then(response => response.json())
     .then(data => {
       const heartIcon = document.querySelector('.heart')[0];
+      console.log(heartIcon);
       heartIcon.classList.toggle('fav', data.value);
+      bookmarked = data.value;
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
+}
+
+function addBookmark() {
+  fetch(`${apiUri}/bookmarks`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      url: url
+  })
+  })
+    .then(response => response.json())
+    .then(data => {
+      heartIcon.classList.toggle('fav', true);
+      bookmarked = true;
     })
     .catch(error => {
       console.error('An error occurred:', error);
