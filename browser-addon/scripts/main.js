@@ -64,8 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selection.toString().length > 0) {
           var range = selection.getRangeAt(0);
           var rect = range.getBoundingClientRect();
-          hl.style.left = (rect.left + rect.right) / 2 + "px";
-          hl.style.top = (rect.bottom + 10) + "px";
+          hl.style.left = window.pageXOffset + ((rect.left + rect.right) / 2) + "px";
+          hl.style.top = window.pageYOffset + (rect.bottom + 10) + "px";          
+
           hl.style.display = "block";
         } else {
           hl.style.display = "none";
