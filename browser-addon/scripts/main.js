@@ -13,7 +13,7 @@ storage.local.get('token', function (result) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch(chrome.extension.getURL("pages/main.html"))
+  fetch(chrome.runtime.getURL("pages/main.html"))
     .then(response => response.text())
     .then(html => {
       var toolbar = document.createElement("div");
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-  fetch(chrome.extension.getURL("pages/highlighter.html"))
+  fetch(chrome.runtime.getURL("pages/highlighter.html"))
     .then(response => response.text())
     .then(html => {
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selection.toString().length > 0) {
           var range = selection.getRangeAt(0);
           var rect = range.getBoundingClientRect();
-          hl.style.left = (rect.left + rect.right)/2 + "px";
+          hl.style.left = (rect.left + rect.right) / 2 + "px";
           hl.style.top = (rect.bottom + 10) + "px";
           hl.style.display = "block";
         } else {
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-  fetch(chrome.extension.getURL("styles/style.css"))
+  fetch(chrome.runtime.getURL("styles/style.css"))
     .then(response => response.text())
     .then(css => {
       var style = document.createElement("style");
