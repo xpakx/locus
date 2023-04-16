@@ -5,6 +5,7 @@ const url = window.location.href;
 var token = null;
 var heartIcon = null;
 var bookmarked = false;
+var toolbarDiv = null;
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
       toolbar.classList.add("locus-wzHfKco");
       toolbar.innerHTML = html;
       document.body.insertBefore(toolbar, document.body.firstChild);
+      toolbarDiv = toolbar;
 
       heartIcon = toolbar.querySelector('.heart');
       if (token) {
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
           var range = selection.getRangeAt(0);
           var rect = range.getBoundingClientRect();
           hl.style.left = window.pageXOffset + ((rect.left + rect.right) / 2) + "px";
-          hl.style.top = window.pageYOffset + (rect.bottom + 10) + "px";          
+          hl.style.top = window.pageYOffset + (rect.bottom + 10) + "px";
 
           hl.style.display = "block";
         } else {
@@ -138,3 +140,17 @@ function addBookmark() {
       console.error('An error occurred:', error);
     });
 }
+
+document.addEventListener('keydown', function (event) {
+  if (event.altKey && event.key === 's' && !bookmarked) {
+    console.log('Bookmarking called with keyboard');
+    addBookmark();
+  } else if (event.altKey && event.key === 'f') {
+    console.log('Search called with keyboard');
+    event.preventDefault();
+    runtime.sendMessage({ action: "open_tab", url: "pages/search.html" });
+  } else if (event.altKey && event.key === 'x') {
+    console.log('Closing toolbar called with keyboard');
+    toolbarDiv.classList.add('hidden');
+  }
+});
