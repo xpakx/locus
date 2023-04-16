@@ -151,6 +151,6 @@ document.addEventListener('keydown', function (event) {
     runtime.sendMessage({ action: "open_tab", url: "pages/search.html" });
   } else if (event.altKey && event.key === 'x') {
     console.log('Closing toolbar called with keyboard');
-    toolbarDiv.classList.add('hidden');
+    toolbarDiv.classList.toggle('hidden');
   }
 });
