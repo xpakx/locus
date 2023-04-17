@@ -27,9 +27,16 @@ public class BookmarkESRepository extends GenericESRepository<BookmarkData> {
         }
     }
 
-    public List<BookmarkData> searchForUserBookmark(String searchString, String username) {
+    public List<BookmarkData> searchForUserBookmark(String searchString, String username, int from, int amount) {
         try {
-            SearchResponse<BookmarkData> response = doFuzzySearchWithRequiredField(searchString, "content", "owner", username);
+            SearchResponse<BookmarkData> response = doFuzzySearchWithRequiredField(
+                    searchString,
+                    "content",
+                    "owner",
+                    username,
+                    from,
+                    amount
+            );
             return response.hits().hits().stream().map(Hit::source).toList();
         } catch(IOException exception) {
             throw new ESException();

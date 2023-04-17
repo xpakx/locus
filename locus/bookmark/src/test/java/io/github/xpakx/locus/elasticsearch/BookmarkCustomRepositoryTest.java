@@ -77,7 +77,7 @@ class BookmarkCustomRepositoryTest {
         bookmarkRepository.saveBookmark(getBookmark("something", "user2"));
         elasticsearchClient.indices().refresh();
 
-        List<BookmarkData> result = bookmarkRepository.searchForUserBookmark("content", "user1");
+        List<BookmarkData> result = bookmarkRepository.searchForUserBookmark("content", "user1", 0, 20);
 
         assertThat(result, hasSize(2));
     }
@@ -93,7 +93,7 @@ class BookmarkCustomRepositoryTest {
                 )
         );
         elasticsearchClient.indices().refresh();
-        List<BookmarkData> result = bookmarkRepository.searchForUserBookmark("bookmark", "user1");
+        List<BookmarkData> result = bookmarkRepository.searchForUserBookmark("bookmark", "user1", 0, 20);
 
         assertThat(result, hasSize(4));
     }

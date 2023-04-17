@@ -11,7 +11,11 @@ import java.util.List;
 public class SearchService {
     private final BookmarkESRepository bookmarkCustomRepository;
 
-    public List<BookmarkDto> searchForUserBookmark(String searchString, String username) {
-        return bookmarkCustomRepository.searchForUserBookmark(searchString, username).stream().map(BookmarkDto::of).toList();
+    public List<BookmarkDto> searchForUserBookmark(String searchString, String username, Integer page, Integer amount) {
+        return bookmarkCustomRepository
+                .searchForUserBookmark(searchString, username, page*amount, amount)
+                .stream()
+                .map(BookmarkDto::of)
+                .toList();
     }
 }

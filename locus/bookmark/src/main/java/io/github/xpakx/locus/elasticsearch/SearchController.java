@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/bookmarks")
@@ -15,7 +16,15 @@ public class SearchController {
 
     @GetMapping
     @ResponseBody
-    public List<BookmarkDto> searchContent(@RequestParam String searchString, Principal principal) {
-        return service.searchForUserBookmark(searchString, principal.getName());
+    public List<BookmarkDto> searchContent(@RequestParam String searchString,
+                                           @RequestParam Optional<Integer> page,
+                                           @RequestParam Optional<Integer> amount,
+                                           Principal principal) {
+        return service.searchForUserBookmark(
+                searchString,
+                principal.getName(),
+                page.orElse(0),
+                amount.orElse(20)
+        );
     }
 }
