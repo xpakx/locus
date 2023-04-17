@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/bookmarks")
@@ -23,8 +24,16 @@ public class TagController {
 
     @GetMapping("/tagged/{tagName}")
     @ResponseBody
-    public List<BookmarkDto> getBookmark(@PathVariable String tagName, Principal principal) {
-        return service.getBookmarksTaggedAs(0, 20, tagName, principal.getName()).getContent();
+    public List<BookmarkDto> getBookmarksTaggedAs(@RequestParam Optional<Integer> page,
+                                                  @RequestParam Optional<Integer> amount,
+                                                  @PathVariable String tagName,
+                                                  Principal principal) {
+        return service.getBookmarksTaggedAs(
+                page.orElse(0),
+                amount.orElse(20),
+                tagName,
+                principal.getName()
+        ).getContent();
     }
 
 }

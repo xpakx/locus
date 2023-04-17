@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,8 +32,14 @@ public class BookmarkController {
 
     @GetMapping("/all")
     @ResponseBody
-    public List<BookmarkDto> getBookmark(Principal principal) {
-        return bookmarkService.getBookmarks(0, 20, principal.getName()).getContent();
+    public List<BookmarkDto> getAllBookmarks(@RequestParam Optional<Integer> page,
+                                             @RequestParam Optional<Integer> amount,
+                                             Principal principal) {
+        return bookmarkService.getBookmarks(
+                page.orElse(0),
+                amount.orElse(20),
+                principal.getName()
+        ).getContent();
     }
 
     @GetMapping("/check")
