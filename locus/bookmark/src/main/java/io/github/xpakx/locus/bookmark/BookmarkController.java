@@ -2,6 +2,7 @@ package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
+import io.github.xpakx.locus.bookmark.dto.BookmarkSummary;
 import io.github.xpakx.locus.bookmark.dto.BooleanResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -32,9 +33,9 @@ public class BookmarkController {
 
     @GetMapping("/all")
     @ResponseBody
-    public List<BookmarkDto> getAllBookmarks(@RequestParam Optional<Integer> page,
-                                             @RequestParam Optional<Integer> amount,
-                                             Principal principal) {
+    public List<BookmarkSummary> getAllBookmarks(@RequestParam Optional<Integer> page,
+                                                 @RequestParam Optional<Integer> amount,
+                                                 Principal principal) {
         return bookmarkService.getBookmarks(
                 page.orElse(0),
                 amount.orElse(20),

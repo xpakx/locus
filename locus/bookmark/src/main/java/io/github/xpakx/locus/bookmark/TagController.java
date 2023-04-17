@@ -1,6 +1,7 @@
 package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
+import io.github.xpakx.locus.bookmark.dto.BookmarkSummary;
 import io.github.xpakx.locus.bookmark.dto.TagDto;
 import io.github.xpakx.locus.bookmark.dto.TagRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,10 @@ public class TagController {
 
     @GetMapping("/tagged/{tagName}")
     @ResponseBody
-    public List<BookmarkDto> getBookmarksTaggedAs(@RequestParam Optional<Integer> page,
-                                                  @RequestParam Optional<Integer> amount,
-                                                  @PathVariable String tagName,
-                                                  Principal principal) {
+    public List<BookmarkSummary> getBookmarksTaggedAs(@RequestParam Optional<Integer> page,
+                                                      @RequestParam Optional<Integer> amount,
+                                                      @PathVariable String tagName,
+                                                      Principal principal) {
         return service.getBookmarksTaggedAs(
                 page.orElse(0),
                 amount.orElse(20),

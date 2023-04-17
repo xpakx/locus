@@ -2,6 +2,7 @@ package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
+import io.github.xpakx.locus.bookmark.dto.BookmarkSummary;
 import io.github.xpakx.locus.bookmark.dto.BooleanResponse;
 import io.github.xpakx.locus.bookmark.error.NotFoundException;
 import io.github.xpakx.locus.downloader.WebpageDownloader;
@@ -47,7 +48,7 @@ public class BookmarkService {
         );
     }
 
-    public Page<BookmarkDto> getBookmarks(Integer page, Integer amount, String username) {
+    public Page<BookmarkSummary> getBookmarks(Integer page, Integer amount, String username) {
         return bookmarkRepository.findByOwner(
                 username,
                 PageRequest.of(
