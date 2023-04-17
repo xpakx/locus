@@ -48,4 +48,18 @@ public class TagService {
                 )
         );
     }
+
+
+    @Transactional
+    public BookmarkDto untag(String tagName, String username, Long bookmarkId) {
+        Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
+                .orElseThrow(NotFoundException::new);
+        if(!bookmark.getOwner().equals(username)) {
+            throw new NotFoundException();
+        }
+        Tag tag = tagRepository.findByName(tagName)
+                .orElseThrow(() -> new NotFoundException("There is no such tag"));
+        tagRepository.untagBookmark(bookmark.getId(), tag.getId());
+        return BookmarkDto.of(bookmark);
+    }
 }

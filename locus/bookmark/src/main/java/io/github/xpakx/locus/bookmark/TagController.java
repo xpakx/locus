@@ -2,7 +2,6 @@ package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkSummary;
-import io.github.xpakx.locus.bookmark.dto.TagDto;
 import io.github.xpakx.locus.bookmark.dto.TagRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +36,9 @@ public class TagController {
         ).getContent();
     }
 
+    @DeleteMapping("/{bookmarkId}/tags/{tag}")
+    @ResponseBody
+    public BookmarkDto untag(@PathVariable Long bookmarkId, @PathVariable String tag, Principal principal) {
+        return service.untag(tag, principal.getName(), bookmarkId);
+    }
 }
