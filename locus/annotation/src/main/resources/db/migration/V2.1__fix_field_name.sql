@@ -1,0 +1,1 @@
+ALTER TABLE highlight RENAME COLUMN createdAt TO created_at;
