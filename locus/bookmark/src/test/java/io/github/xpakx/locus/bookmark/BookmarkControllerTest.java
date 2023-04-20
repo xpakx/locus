@@ -23,8 +23,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.http.HttpStatus.*;
@@ -195,5 +194,58 @@ class BookmarkControllerTest {
         bookmark.setUrl(url);
         bookmark.setOwner(owner);
         return bookmarkRepository.save(bookmark).getId();
+    }
+
+    @Test
+    void shouldRespondWith401ToCheckBookmarkIfNotAuthenticated() {
+        given()
+                .param("url", "http://example.com")
+        .when()
+                .get(baseUrl + "/check")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWith401ToCheckBookmarkIfTokenIsWrong() {
+        given()
+                .auth()
+                .oauth2("329432853295")
+                .param("url", "http://example.com")
+        .when()
+                .get(baseUrl + "/check")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWithFalseToNonBookmarkedPage() throws IOException {
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .param("url", "http://example.com")
+        .when()
+                .get(baseUrl + "/check")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("value", is(false));
+    }
+
+    @Test
+    void shouldRespondWithTrueToBookmarkedPage() throws IOException {
+        addBookmark("http://example.com", "");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .param("url", "http://example.com")
+        .when()
+                .get(baseUrl + "/check")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("value", is(true));
     }
 }
