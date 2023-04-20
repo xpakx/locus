@@ -45,7 +45,7 @@ public class BookmarkController {
 
     @GetMapping("/check")
     @ResponseBody
-    public BooleanResponse checkBookmarkExistence(@PathVariable String url, Principal principal) {
+    public BooleanResponse checkBookmarkExistence(@RequestParam String url, Principal principal) {
         return bookmarkService.checkBookmarkForUrl(url, principal.getName());
     }
 }
