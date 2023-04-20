@@ -248,4 +248,54 @@ class BookmarkControllerTest {
                 .statusCode(OK.value())
                 .body("value", is(true));
     }
+
+    @Test
+    void shouldRespondWith401ToGetAllBookmarksIfNotAuthenticated() {
+        when()
+                .get(baseUrl + "/all")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWith401ToGetAllBookmarksIfTokenIsWrong() {
+        given()
+                .auth()
+                .oauth2("329432853295")
+        .when()
+                .get(baseUrl + "/all")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWithEmptyBookmarkList() throws IOException {
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+        .when()
+                .get(baseUrl + "/all")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("$", hasSize(0));
+    }
+
+    @Test
+    void shouldRespondWithBookmarkList() throws IOException {
+        addBookmark("http://example.com/1", "", "user1");
+        addBookmark("http://example.com/2", "", "user1");
+        addBookmark("http://example.com/3", "", "user1");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .when()
+                .get(baseUrl + "/all")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("$", hasSize(3));
+    }
 }
