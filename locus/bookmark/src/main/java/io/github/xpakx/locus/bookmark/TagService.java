@@ -25,7 +25,7 @@ public class TagService {
             throw new NotFoundException();
         }
         Tag tag = tagRepository.findByNameAndOwner(request.name(), username)
-                .orElse(createNewTag(request, username));
+                .orElseGet(() -> createNewTag(request, username));
         tagRepository.tagBookmark(bookmark.getId(), tag.getId());
         return BookmarkDto.of(bookmark);
     }
