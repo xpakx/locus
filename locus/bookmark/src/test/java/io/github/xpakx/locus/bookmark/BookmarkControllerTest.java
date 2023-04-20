@@ -236,7 +236,7 @@ class BookmarkControllerTest {
 
     @Test
     void shouldRespondWithTrueToBookmarkedPage() throws IOException {
-        addBookmark("http://example.com", "");
+        addBookmark("http://example.com", "", "user1");
         given()
                 .auth()
                 .oauth2(tokenFor("user1"))
