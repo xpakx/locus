@@ -17,7 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +24,9 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpStatus.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TagControllerTest {
@@ -144,5 +143,30 @@ class TagControllerTest {
         .then()
                 .log().body()
                 .statusCode(OK.value());
+    }
+
+    @Test
+    void shouldNotCreateMoreThanOneTagWithSameName() throws IOException {
+        Long id = addBookmark("http://example.com", "user1");
+        addTag("tag", "user1");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .contentType(ContentType.JSON)
+                .body(getTagRequest("tag"))
+        .when()
+                .post(baseUrl + "/{bookmarkId}/tags", id)
+        .then()
+                .log().body()
+                .statusCode(OK.value());
+
+        assertThat(tagRepository.findAll(), hasSize(1));
+    }
+
+    private void addTag(String name, String owner) {
+        Tag tag = new Tag();
+        tag.setName(name);
+        tag.setOwner(owner);
+        tagRepository.save(tag);
     }
 }
