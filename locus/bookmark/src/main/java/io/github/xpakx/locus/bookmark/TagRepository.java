@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    Optional<Tag> findByName(String name);
+    Optional<Tag> findByNameAndOwner(String name, String owner);
 
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO bookmark_tags(bookmark_id, tag_id) VALUES (:bookmarkId, :tagId);")

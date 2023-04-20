@@ -24,7 +24,7 @@ public class TagService {
         if(!bookmark.getOwner().equals(username)) {
             throw new NotFoundException();
         }
-        Tag tag = tagRepository.findByName(request.name())
+        Tag tag = tagRepository.findByNameAndOwner(request.name(), username)
                 .orElse(createNewTag(request, username));
         tagRepository.tagBookmark(bookmark.getId(), tag.getId());
         return BookmarkDto.of(bookmark);
@@ -57,7 +57,7 @@ public class TagService {
         if(!bookmark.getOwner().equals(username)) {
             throw new NotFoundException();
         }
-        Tag tag = tagRepository.findByName(tagName)
+        Tag tag = tagRepository.findByNameAndOwner(tagName, username)
                 .orElseThrow(() -> new NotFoundException("There is no such tag"));
         tagRepository.untagBookmark(bookmark.getId(), tag.getId());
         return BookmarkDto.of(bookmark);
