@@ -49,7 +49,6 @@ public class TagService {
         );
     }
 
-
     @Transactional
     public BookmarkDto untag(String tagName, String username, Long bookmarkId) {
         Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
