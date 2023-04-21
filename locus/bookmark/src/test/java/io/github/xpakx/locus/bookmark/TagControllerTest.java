@@ -254,4 +254,18 @@ class TagControllerTest {
         bookmark.setTags(tags);
         bookmarkRepository.save(bookmark);
     }
+
+    @Test
+    void shouldReturn200ToUntagRequestEvenIfTagBookmarkRelationDoesNotExist() throws IOException {
+        Long id = addBookmark("http://example.com", "user1");
+        addTag("tag", "user1");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+        .when()
+                .delete(baseUrl + "/{bookmarkId}/tags/{tag}", id, "tag")
+        .then()
+                .log().body()
+                .statusCode(OK.value());
+    }
 }
