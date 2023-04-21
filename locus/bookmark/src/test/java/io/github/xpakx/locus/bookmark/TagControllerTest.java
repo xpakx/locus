@@ -1,6 +1,5 @@
 package io.github.xpakx.locus.bookmark;
 
-import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import io.github.xpakx.locus.bookmark.dto.TagRequest;
 import io.github.xpakx.locus.downloader.UrlReaderService;
 import io.github.xpakx.locus.elasticsearch.ElasticSearchAspect;
@@ -25,8 +24,7 @@ import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -267,5 +265,67 @@ class TagControllerTest {
         .then()
                 .log().body()
                 .statusCode(OK.value());
+    }
+
+    @Test
+    void shouldRespondWith401ToGetTaggedBookmarksIfNotAuthenticated() {
+        when()
+                .get(baseUrl + "/tagged/{tag}", "tag")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWith401ToGetTaggedBookmarksIfTokenIsWrong() {
+        given()
+                .auth()
+                .oauth2("329432853295")
+        .when()
+                .get(baseUrl + "/tagged/{tag}", "tag")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWithEmptyBookmarkList() throws IOException {
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+        .when()
+                .get(baseUrl + "/tagged/{tag}", "tag")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("$", hasSize(0));
+    }
+
+    @Test
+    void shouldRespondWithBookmarkList() throws IOException {
+        Long tagId = addTag("tag", "user1");
+        tagBookmark(
+                addBookmark("http://example.com/1", "user1"),
+                tagId
+        );
+        tagBookmark(
+                addBookmark("http://example.com/2", "user1"),
+                tagId
+        );
+        tagBookmark(
+                addBookmark("http://example.com/3", "user1"),
+                tagId
+        );
+        addBookmark("http://example.com/4", "user1");
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+        .when()
+                .get(baseUrl + "/tagged/{tag}", "tag")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("$", hasSize(3))
+                .body("url", not(hasItem(equalTo("http://example.com/4"))));
     }
 }
