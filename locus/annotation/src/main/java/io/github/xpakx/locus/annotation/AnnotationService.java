@@ -19,6 +19,7 @@ public class AnnotationService {
         highlight.setOwner(username);
         highlight.setType(HighlightType.TEXT);
         highlight.setCreatedAt(LocalDateTime.now());
+        highlight.setUrl(request.url());
         return highlightRepository.save(highlight);
     }
     public Highlight addTimestampedHighlight(VideoHighlightRequest request, String username) {
@@ -29,6 +30,7 @@ public class AnnotationService {
         highlight.setType(HighlightType.VIDEO);
         highlight.setTimestamp(request.timestamp());
         highlight.setCreatedAt(LocalDateTime.now());
+        highlight.setUrl(request.url());
         return highlightRepository.save(highlight);
     }
 
