@@ -1,6 +1,7 @@
 package io.github.xpakx.locus.annotation;
 
 import io.github.xpakx.locus.annotation.dto.HighlightRequest;
+import io.github.xpakx.locus.annotation.dto.VideoHighlightRequest;
 import io.github.xpakx.locus.elasticsearch.ElasticSearchAspect;
 import io.github.xpakx.locus.security.JwtUtils;
 import io.restassured.http.ContentType;
@@ -123,4 +124,67 @@ class AnnotationControllerTest {
                 .body("annotation", equalTo("annotation"));
     }
 
+    @Test
+    void shouldRespondWith401ToAnnotateVideoIfNotAuthenticated() {
+        when()
+                .post(baseUrl + "/video")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    @Test
+    void shouldRespondWith401ToAnnotateVideoIfTokenIsWrong() {
+        given()
+                .auth()
+                .oauth2("329432853295")
+                .contentType(ContentType.JSON)
+                .body(getVideoRequest("http://example.com"))
+        .when()
+                .post(baseUrl + "/video")
+        .then()
+                .log().body()
+                .statusCode(UNAUTHORIZED.value());
+    }
+
+    private VideoHighlightRequest getVideoRequest(String url) {
+        return getVideoRequest(url, 0, null);
+    }
+
+    private VideoHighlightRequest getVideoRequest(String url, Integer timestamp, String annotation) {
+        return new VideoHighlightRequest(url, "", timestamp, Optional.ofNullable(annotation));
+    }
+
+    @Test
+    void shouldHighlightAtTimestamp() {
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .contentType(ContentType.JSON)
+                .body(getVideoRequest("http://example.com"))
+        .when()
+                .post(baseUrl + "/video")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("url", equalTo("http://example.com"))
+                .body("type", equalTo("VIDEO"))
+                .body("annotation", nullValue());
+    }
+
+    @Test
+    void shouldAnnotateVideot() {
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .contentType(ContentType.JSON)
+                .body(getVideoRequest("http://example.com", 120, "annotation"))
+        .when()
+                .post(baseUrl + "/video")
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("annotation", equalTo("annotation"))
+                .body("timestamp", equalTo(120));
+    }
 }
