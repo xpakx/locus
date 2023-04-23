@@ -23,8 +23,7 @@ import java.util.Optional;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isNull;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -105,7 +104,7 @@ class AnnotationControllerTest {
                 .statusCode(OK.value())
                 .body("url", equalTo("http://example.com"))
                 .body("type", equalTo("TEXT"))
-                .body("annotation", isNull())
+                .body("annotation", nullValue())
                 .body("text", equalTo("text"));
     }
 
