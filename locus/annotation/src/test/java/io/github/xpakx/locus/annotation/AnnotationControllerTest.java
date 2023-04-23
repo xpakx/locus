@@ -108,4 +108,19 @@ class AnnotationControllerTest {
                 .body("text", equalTo("text"));
     }
 
+    @Test
+    void shouldAnnotateText() {
+        given()
+                .auth()
+                .oauth2(tokenFor("user1"))
+                .contentType(ContentType.JSON)
+                .body(getHighlightRequest("http://example.com", "text", "annotation"))
+        .when()
+                .post(baseUrl)
+        .then()
+                .log().body()
+                .statusCode(OK.value())
+                .body("annotation", equalTo("annotation"));
+    }
+
 }
