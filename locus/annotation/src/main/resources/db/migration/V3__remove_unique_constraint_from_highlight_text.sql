@@ -1,0 +1,1 @@
+ALTER TABLE highlight ALTER COLUMN  text DROP NOT NULL;

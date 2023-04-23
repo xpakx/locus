@@ -152,7 +152,7 @@ class AnnotationControllerTest {
     }
 
     private VideoHighlightRequest getVideoRequest(String url, Integer timestamp, String annotation) {
-        return new VideoHighlightRequest(url, "", timestamp, Optional.ofNullable(annotation));
+        return new VideoHighlightRequest(url, timestamp, Optional.ofNullable(annotation));
     }
 
     @Test

@@ -15,8 +15,6 @@ public class Highlight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(nullable = false)
     private String text;
     private String annotation;
     private Integer timestamp;
