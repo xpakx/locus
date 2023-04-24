@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,5 +23,11 @@ public class AnnotationController {
     @ResponseBody
     public Highlight annotateVideo(@RequestBody VideoHighlightRequest request, Principal principal) {
         return service.addTimestampedHighlight(request, principal.getName());
+    }
+
+    @GetMapping
+    @ResponseBody
+    public List<Highlight> getAnnotations(@RequestParam String url, Principal principal) {
+        return service.getAnnotationsForUrl(url, principal.getName());
     }
 }

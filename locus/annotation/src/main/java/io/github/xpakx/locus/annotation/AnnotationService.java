@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,9 @@ public class AnnotationService {
         highlight.setCreatedAt(LocalDateTime.now());
         highlight.setUrl(request.url());
         return highlight;
+    }
+
+    public List<Highlight> getAnnotationsForUrl(String url, String username) {
+        return highlightRepository.findByUrlAndOwner(url, username);
     }
 }
