@@ -25,7 +25,7 @@ public class AnnotationController {
         return service.addTimestampedHighlight(request, principal.getName());
     }
 
-    @GetMapping
+    @GetMapping("/all")
     @ResponseBody
     public List<Highlight> getAnnotations(@RequestParam String url, Principal principal) {
         return service.getAnnotationsForUrl(url, principal.getName());
