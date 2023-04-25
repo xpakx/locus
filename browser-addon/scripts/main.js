@@ -76,9 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       const highlightButton = hl.querySelector('.highlight').parentElement.parentElement;
-      highlightButton.addEventListener('click', function (event) {
+      highlightButton.addEventListener('mousedown', function (event) {
         console.log('Highlight button clicked');
-
         var selection = window.getSelection();
         if(selection && selection.toString().length > 0) {
           highlightText(selection.toString());
