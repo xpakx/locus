@@ -74,6 +74,16 @@ document.addEventListener('DOMContentLoaded', function () {
           hl.style.display = "none";
         }
       });
+
+      const highlightButton = hl.querySelector('.highlight').parentElement.parentElement;
+      highlightButton.addEventListener('click', function (event) {
+        console.log('Highlight button clicked');
+
+        var selection = window.getSelection();
+        if(selection && selection.toString().length > 0) {
+          highlightText(selection.toString());
+        }
+      });
     });
 
   fetch(chrome.runtime.getURL("styles/style.css"))
@@ -154,3 +164,25 @@ document.addEventListener('keydown', function (event) {
     toolbarDiv.classList.toggle('hidden');
   }
 });
+
+function highlightText(text) {
+  fetch(`${apiUri}/annotations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      url: url,
+      highlightedText: text
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      heartIcon.classList.toggle('fav', true);
+      bookmarked = true;
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
+}
