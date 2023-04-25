@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if(selection && selection.toString().length > 0) {
           highlightText(selection.toString());
         }
+        event.preventDefault();
       });
     });
 
