@@ -181,6 +181,7 @@ function highlightText(text) {
     .then(data => {
       heartIcon.classList.toggle('fav', true);
       bookmarked = true;
+      applyHighlight(text);
     })
     .catch(error => {
       console.error('An error occurred:', error);
