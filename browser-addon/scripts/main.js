@@ -194,6 +194,7 @@ function applyHighlight(highlightedText) {
     let text = element.innerHTML;
     let regexString = highlightedText
       .split('')
+      .map(char => char.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&'))
       .map(char => `(?:<[^>]*>)*${char}`)
       .join('')
       .replace(/ /g, '\\s+');
