@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
       highlightButton.addEventListener('mousedown', function (event) {
         console.log('Highlight button clicked');
         var selection = window.getSelection();
-        if(selection && selection.toString().length > 0) {
+        if (selection && selection.toString().length > 0) {
           highlightText(selection.toString());
         }
         event.preventDefault();
@@ -185,4 +185,15 @@ function highlightText(text) {
     .catch(error => {
       console.error('An error occurred:', error);
     });
+}
+
+function applyHighlight(highlightedText) {
+  let text = document.body.innerHTML;
+  let regexString = highlightedText
+    .split('')
+    .map(char => `(?:<[^>]*>)*${char}`)
+    .join('')
+    .replace(/ /g, '\\s+');
+  let re = new RegExp(regexString, "gi");
+  document.body.innerHTML = text.replace(re, "<mark>$&</mark>");
 }
