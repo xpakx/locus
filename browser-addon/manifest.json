@@ -8,11 +8,17 @@
       "matches": ["<all_urls>"],
       "js": ["scripts/main.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.youtube.com/watch?v=*"],
+      "js": ["scripts/youtube.js"],
+      "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
     "pages/main.html", 
     "pages/highlighter.html", 
+    "pages/youtube.html", 
     "styles/style.css", 
     "icons/*"
   ],
