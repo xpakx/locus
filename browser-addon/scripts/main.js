@@ -189,12 +189,18 @@ function highlightText(text) {
 }
 
 function applyHighlight(highlightedText) {
-  let text = document.body.innerHTML;
-  let regexString = highlightedText
-    .split('')
-    .map(char => `(?:<[^>]*>)*${char}`)
-    .join('')
-    .replace(/ /g, '\\s+');
-  let re = new RegExp(regexString, "gi");
-  document.body.innerHTML = text.replace(re, "<mark>$&</mark>");
+  for (let i = 0; i < document.body.children.length; i++) {
+    let element = document.body.children[i];
+    let text = element.innerHTML;
+    let regexString = highlightedText
+      .split('')
+      .map(char => `(?:<[^>]*>)*${char}`)
+      .join('')
+      .replace(/ /g, '\\s+');
+    let re = new RegExp(regexString, "gi");
+    let newText = text.replace(re, "<mark>$&</mark>");
+    if(newText !== text) {
+      element.innerHTML = newText;
+    }
+  }
 }
