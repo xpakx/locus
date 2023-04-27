@@ -122,6 +122,14 @@ document.addEventListener('DOMContentLoaded', function () {
       sidebar.style.display = 'none';
       document.body.insertBefore(sidebar, document.body.firstChild);
       sidebarDiv = sidebar;
+
+
+
+      const closeFullSidebarButton = sidebar.querySelector('.close').parentElement.parentElement;
+      closeFullSidebarButton.addEventListener('click', function (event) {
+        console.log('Close sidebar button clicked');
+        hideFullsidebar();
+      });
     });
 });
 
@@ -226,7 +234,7 @@ function applyHighlight(highlightedText) {
 
 function showFullsidebar() {
   toolbarDiv.style.display = "none";
-  sidebarDiv.style.display = "block";
+  sidebarDiv.style.display = "flex";
 }
 
 function hideFullsidebar() {

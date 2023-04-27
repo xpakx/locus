@@ -248,7 +248,28 @@
     z-index: 999;
     top: 0;
     height: 100vh;
-    width: 300px;
+    width: 400px;
     box-sizing: revert;
     background-image: var(--metalic-gradient);
+    display: flex;
+}
+
+.locus-full .annotations {
+    color: rgb(250, 250, 250);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: scroll;
+    flex-grow: 1;
+    padding: 5px 10px 0px;
+}
+
+.locus-full .actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 25px;
+    padding: 5px 10px 0px;
 }
