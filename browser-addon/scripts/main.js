@@ -50,6 +50,12 @@ document.addEventListener('DOMContentLoaded', function () {
         toolbar.classList.add('hidden');
       });
 
+      const annotationsButton = toolbar.querySelector('.highlight').parentElement.parentElement;
+      annotationsButton.addEventListener('click', function (event) {
+        console.log('Open fulll sidebar button clicked');
+        showFullsidebar();
+      });
+
     });
 
 
