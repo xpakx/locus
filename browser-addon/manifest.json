@@ -17,6 +17,7 @@
   ],
   "web_accessible_resources": [
     "pages/main.html", 
+    "pages/main-full.html", 
     "pages/highlighter.html", 
     "pages/youtube.html", 
     "styles/style.css", 

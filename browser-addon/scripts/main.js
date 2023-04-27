@@ -6,6 +6,7 @@ var token = null;
 var heartIcon = null;
 var bookmarked = false;
 var toolbarDiv = null;
+var sidebarDiv = null;
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -105,6 +106,17 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
+
+  fetch(chrome.runtime.getURL("pages/main-full.html"))
+    .then(response => response.text())
+    .then(html => {
+      var sidebar = document.createElement("div");
+      sidebar.classList.add("locus-full");
+      sidebar.innerHTML = html;
+      sidebar.style.display = 'none';
+      document.body.insertBefore(sidebar, document.body.firstChild);
+      sidebarDiv = sidebar;
+    });
 });
 
 function checkBookmark() {
@@ -204,4 +216,14 @@ function applyHighlight(highlightedText) {
       element.innerHTML = newText;
     }
   }
+}
+
+function showFullsidebar() {
+  toolbarDiv.style.display = "none";
+  sidebarDiv.style.display = "block";
+}
+
+function hideFullsidebar() {
+  sidebarDiv.style.display = "none";
+  toolbarDiv.style.display = "block";
 }
