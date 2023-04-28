@@ -241,7 +241,7 @@ function applyHighlight(highlightedText) {
       .replace(/ /g, '\\s+');
     let re = new RegExp(regexString, "gi");
     let newText = text.replace(re, "<mark>$&</mark>");
-    if(newText !== text) {
+    if (newText !== text) {
       element.innerHTML = newText;
     }
   }
@@ -265,7 +265,9 @@ function getCaretPosition(element) {
   return preCaretRange.toString().length;
 }
 
+
 function setCaretPosition(element, position) {
+  console.log(position);
   var range = document.createRange();
   var sel = window.getSelection();
   var currentNode = element;
@@ -274,11 +276,16 @@ function setCaretPosition(element, position) {
     var childNode = currentNode.childNodes[i];
     var childLength = childNode.textContent.length;
     if (totalLength + childLength >= position) {
-      range.setStart(childNode, position - totalLength);
-      range.collapse(true);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      return;
+      if (childNode.nodeType == Node.TEXT_NODE) {
+        range.setStart(childNode, position - totalLength);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        return;
+      } else {
+        setCaretPosition(childNode, position - totalLength);
+        return;
+      }
     }
     totalLength += childLength;
   }
