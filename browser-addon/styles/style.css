@@ -245,13 +245,15 @@
 .locus-full {
     position: fixed;
     right: 0;
-    z-index: 999;
+    z-index: 2147483647;
     top: 0;
     height: 100vh;
     width: 400px;
     box-sizing: revert;
     background-image: var(--metalic-gradient);
     display: flex;
+    color: rgba(245, 245, 245, 0.945);
+    font-size: 12px;
 }
 
 .locus-full .annotations-container {
