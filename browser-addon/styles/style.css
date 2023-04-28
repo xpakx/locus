@@ -319,7 +319,6 @@
     background-color: rgb(48, 49, 57);
     cursor: text;
     color: rgb(133, 134, 142);
-    display: flex;
     flex-grow: 1;
 }
 
