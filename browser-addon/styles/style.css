@@ -357,3 +357,7 @@
     left: 0;
     border-radius: 20px;
 }
+
+.md-char {
+    color:rgb(73, 73, 78);
+}

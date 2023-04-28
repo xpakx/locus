@@ -138,8 +138,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Input changed");
         var caretPosition = getCaretPosition(markdownInput);
         var content = markdownInput.innerHTML;
-        content = content.replace(/\*\*(.+)\*\*/g, "<b>$1</b>");
-        content = content.replace(/\_(.+)\_/g, "<i>$1</i>");
+        content = content.replace(/\*\*([^<].*?)\*\*/g, "<span class=\"md-char\">**</span><b>$1</b><span class=\"md-char\">**</span>");
+        content = content.replace(/\_([^<].*?)\_/g, "<span class=\"md-char\">_</span><i>$1</i><span class=\"md-char\">_</span>");
         markdownInput.innerHTML = content;
         setCaretPosition(markdownInput, caretPosition);
       });
