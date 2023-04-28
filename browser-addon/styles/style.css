@@ -302,12 +302,12 @@
     background: rgb(56, 56, 61);
 }
 
-.search-input {
+.text-input {
     padding: 5px 10px;
     display: flex;
 }
 
-.search-input input {
+.text-input .markdown-input {
     border: none;
     box-shadow: none;
     outline: none;

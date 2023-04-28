@@ -7,6 +7,7 @@ var heartIcon = null;
 var bookmarked = false;
 var toolbarDiv = null;
 var sidebarDiv = null;
+var markdownInput = null;
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -123,13 +124,27 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.insertBefore(sidebar, document.body.firstChild);
       sidebarDiv = sidebar;
 
-
-
       const closeFullSidebarButton = sidebar.querySelector('.close').parentElement.parentElement;
       closeFullSidebarButton.addEventListener('click', function (event) {
         console.log('Close sidebar button clicked');
         hideFullsidebar();
       });
+
+      markdownInput = sidebar.querySelector(".markdown-input");
+      markdownInput.contentEditable = true;
+      markdownInput.setAttribute("spellcheck", "false");
+
+      markdownInput.addEventListener("input", function () {
+        console.log("Input changed");
+        var caretPosition = getCaretPosition(markdownInput);
+        var content = markdownInput.innerHTML;
+        content = content.replace(/\*\*(.+)\*\*/g, "<b>$1</b>");
+        content = content.replace(/\_(.+)\_/g, "<i>$1</i>");
+        markdownInput.innerHTML = content;
+        setCaretPosition(markdownInput, caretPosition);
+      });
+
+
     });
 });
 
@@ -240,4 +255,31 @@ function showFullsidebar() {
 function hideFullsidebar() {
   sidebarDiv.style.display = "none";
   toolbarDiv.style.display = "block";
+}
+
+function getCaretPosition(element) {
+  var range = window.getSelection().getRangeAt(0);
+  var preCaretRange = range.cloneRange();
+  preCaretRange.selectNodeContents(element);
+  preCaretRange.setEnd(range.endContainer, range.endOffset);
+  return preCaretRange.toString().length;
+}
+
+function setCaretPosition(element, position) {
+  var range = document.createRange();
+  var sel = window.getSelection();
+  var currentNode = element;
+  var totalLength = 0;
+  for (var i = 0; i < currentNode.childNodes.length; i++) {
+    var childNode = currentNode.childNodes[i];
+    var childLength = childNode.textContent.length;
+    if (totalLength + childLength >= position) {
+      range.setStart(childNode, position - totalLength);
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
+      return;
+    }
+    totalLength += childLength;
+  }
 }
