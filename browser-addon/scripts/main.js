@@ -88,7 +88,11 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Highlight button clicked');
         var selection = window.getSelection();
         if (selection && selection.toString().length > 0) {
-          highlightText(selection.toString());
+          const range = selection.getRangeAt(0);
+          const containingElement = range.commonAncestorContainer.parentNode;
+          const startOffset = range.startOffset;
+          const endOffset = range.endOffset;
+          highlightText(selection.toString(), containingElement, startOffset, endOffset);
         }
         event.preventDefault();
       });
@@ -207,7 +211,7 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
-function highlightText(text) {
+function highlightText(text, elem, startOffset, endOffset) {
   fetch(`${apiUri}/annotations`, {
     method: 'POST',
     headers: {
@@ -223,29 +227,20 @@ function highlightText(text) {
     .then(data => {
       heartIcon.classList.toggle('fav', true);
       bookmarked = true;
-      applyHighlight(text);
+      applyHighlight(elem, startOffset, endOffset);
     })
     .catch(error => {
       console.error('An error occurred:', error);
     });
 }
 
-function applyHighlight(highlightedText) {
-  for (let i = 0; i < document.body.children.length; i++) {
-    let element = document.body.children[i];
-    let text = element.innerHTML;
-    let regexString = highlightedText
-      .split('')
-      .map(char => char.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&'))
-      .map(char => `(?:<[^>]*>)*${char}`)
-      .join('')
-      .replace(/ /g, '\\s+');
-    let re = new RegExp(regexString, "gi");
-    let newText = text.replace(re, "<mark>$&</mark>");
-    if (newText !== text) {
-      element.innerHTML = newText;
-    }
-  }
+function applyHighlight(elem, startOffset, endOffset) {
+  console.log(elem);
+  const range = document.createRange();
+  range.setStart(elem.firstChild, startOffset);
+  range.setEnd(elem.firstChild, endOffset);
+  const markElement = document.createElement('mark');
+  range.surroundContents(markElement);
 }
 
 function showFullsidebar() {
