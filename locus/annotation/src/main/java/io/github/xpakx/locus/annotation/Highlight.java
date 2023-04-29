@@ -22,4 +22,7 @@ public class Highlight {
     private String owner;
     private String url;
     private LocalDateTime createdAt;
+    private Integer selectionStart;
+    private Integer selectionEnd;
+    private String selectionElement;
 }
