@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var selection = window.getSelection();
         if (selection && selection.toString().length > 0) {
           const range = selection.getRangeAt(0);
-          const startContainer = range.startContainer;
-          const endContainer = range.endContainer;
+          const startContainer = getPathTo(range.startContainer);
+          const endContainer = getPathTo(range.endContainer);
           const startOffset = range.startOffset;
           const endOffset = range.endOffset;
           highlightText(selection.toString(), startContainer, endContainer, startOffset, endOffset);
@@ -229,16 +229,16 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
     .then(data => {
       heartIcon.classList.toggle('fav', true);
       bookmarked = true;
-      applyHighlight(elem, startOffset, endOffset);
+      applyHighlight(startContainer, endContainer, startOffset, endOffset);
     })
     .catch(error => {
       console.error('An error occurred:', error);
     });
 }
 
-function applyHighlight(startContainer, endContainer, startOffset, endOffset) {
-  console.log(startContainer);
-  console.log(endContainer);
+function applyHighlight(startPath, endPath, startOffset, endOffset) {
+  const startContainer = getNodeFromPath(startPath);
+  const endContainer = getNodeFromPath(endPath);
   const range = document.createRange();
   range.setStart(startContainer, startOffset);
   range.setEnd(endContainer, endOffset);
@@ -305,4 +305,48 @@ function getNodeAtPosition(element, position) {
     }
     totalLength += childLength;
   }
+}
+
+function getPathTo(node) {
+  const path = [];
+  const nodeIndex = Array.from(node.parentElement.childNodes).indexOf(node);;
+  path.unshift(`${nodeIndex}`);
+  let currentElem = node.parentElement;
+  while (currentElem !== document.body) {
+    const tagName = currentElem.tagName.toLowerCase();
+    const index = Array.from(currentElem.parentElement.children)
+      .filter(node => node.nodeName === tagName.toUpperCase())
+      .indexOf(currentElem);
+    path.unshift(`${tagName}{${index}}`);
+    currentElem = currentElem.parentElement;
+  }
+  return path.join('/');
+}
+
+function getNodeFromPath(path) {
+  const pathArray = path.split('/');
+  let currentNode = document.body;
+
+  for (let i = 0; i < pathArray.length - 1; i++) {
+    const [tagName, index] = pathArray[i].replace(/[}]/g, '').split('{');
+    const childNodes = currentNode.children;
+    let matchingNode = null;
+    const filteredNodes = Array.from(childNodes)
+      .filter(node => node.nodeName === tagName.toUpperCase());
+    const idx = parseInt(index);
+    if (idx < filteredNodes.length) {
+      matchingNode = filteredNodes[idx];
+    }
+
+    if (!matchingNode) {
+      console.error("No such node");
+      return null;
+    }
+
+    currentNode = matchingNode;
+  }
+
+  const nodeIndex = parseInt(pathArray[pathArray.length - 1]);
+
+  return currentNode.childNodes[nodeIndex];
 }
