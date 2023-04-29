@@ -89,10 +89,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var selection = window.getSelection();
         if (selection && selection.toString().length > 0) {
           const range = selection.getRangeAt(0);
-          const containingElement = range.commonAncestorContainer.parentNode;
+          const startContainer = range.startContainer;
+          const endContainer = range.endContainer;
           const startOffset = range.startOffset;
           const endOffset = range.endOffset;
-          highlightText(selection.toString(), containingElement, startOffset, endOffset);
+          highlightText(selection.toString(), startContainer, endContainer, startOffset, endOffset);
         }
         event.preventDefault();
       });
@@ -211,7 +212,8 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
-function highlightText(text, elem, startOffset, endOffset) {
+function highlightText(text, startContainer, endContainer, startOffset, endOffset) {
+  applyHighlight(startContainer, endContainer, startOffset, endOffset);
   fetch(`${apiUri}/annotations`, {
     method: 'POST',
     headers: {
@@ -234,11 +236,12 @@ function highlightText(text, elem, startOffset, endOffset) {
     });
 }
 
-function applyHighlight(elem, startOffset, endOffset) {
-  console.log(elem);
+function applyHighlight(startContainer, endContainer, startOffset, endOffset) {
+  console.log(startContainer);
+  console.log(endContainer);
   const range = document.createRange();
-  range.setStart(elem.firstChild, startOffset);
-  range.setEnd(elem.firstChild, endOffset);
+  range.setStart(startContainer, startOffset);
+  range.setEnd(endContainer, endOffset);
   const markElement = document.createElement('mark');
   range.surroundContents(markElement);
 }
@@ -281,6 +284,23 @@ function setCaretPosition(element, position) {
       } else {
         setCaretPosition(childNode, position - totalLength);
         return;
+      }
+    }
+    totalLength += childLength;
+  }
+}
+
+function getNodeAtPosition(element, position) {
+  var currentNode = element;
+  var totalLength = 0;
+  for (var i = 0; i < currentNode.childNodes.length; i++) {
+    var childNode = currentNode.childNodes[i];
+    var childLength = childNode.textContent.length;
+    if (totalLength + childLength >= position) {
+      if (childNode.nodeType == Node.TEXT_NODE) {
+        return childNode;
+      } else {
+        return getNodeAtPosition(childNode, position - totalLength);
       }
     }
     totalLength += childLength;
