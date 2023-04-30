@@ -246,8 +246,31 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
   const range = document.createRange();
   range.setStart(startContainer, startOffset);
   range.setEnd(endContainer, endOffset);
-  const markElement = document.createElement('mark');
-  range.surroundContents(markElement);
+
+  let root = range.commonAncestorContainer;
+  if (root && root.nodeType == Node.TEXT_NODE) {
+    const markElement = document.createElement('mark');
+    range.surroundContents(markElement);
+    return;
+  }
+
+  if (root && root.nodeType !== Node.ELEMENT_NODE) {
+    root = root.parentElement;
+  } else if (!root) {
+    return;
+  }
+  const whitespace = /^\s*$/;
+  let nodes = Array.from(root.childNodes)
+    .filter(node => range.comparePoint(node, 0) <= 0)
+    .filter(node => range.comparePoint(node, node.nodeValue?.length ?? node.childNodes.length) >= 0)
+    .filter(node => !whitespace.test(node.data));
+
+  for (var i = 0; i < nodes.length; i++) {
+    var rng = document.createRange();
+    rng.selectNode(nodes[i]);
+    const markElement = document.createElement('mark');
+    rng.surroundContents(markElement);
+  }
 }
 
 function showFullsidebar() {
