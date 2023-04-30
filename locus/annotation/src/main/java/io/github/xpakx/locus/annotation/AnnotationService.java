@@ -17,6 +17,10 @@ public class AnnotationService {
     public Highlight addHighlight(HighlightRequest request, String username) {
         Highlight highlight = createHighlightFromRequest(request, username, HighlightType.TEXT);
         highlight.setText(request.highlightedText());
+        highlight.setSelectionStart(request.selectionStart());
+        highlight.setSelectionEnd(request.selectionEnd());
+        highlight.setStartElement(request.startElement());
+        highlight.setEndElement(request.endElement());
         return highlightRepository.save(highlight);
     }
 

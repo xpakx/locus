@@ -88,7 +88,7 @@ class AnnotationControllerTest {
     }
 
     private HighlightRequest getHighlightRequest(String url, String text, String annotation) {
-        return new HighlightRequest(url, text, Optional.ofNullable(annotation), 0, 0, "");
+        return new HighlightRequest(url, text, Optional.ofNullable(annotation), 0, 0, "", "");
     }
 
     @Test
