@@ -222,7 +222,11 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
     },
     body: JSON.stringify({
       url: url,
-      highlightedText: text
+      highlightedText: text,
+      selectionStart: startOffset,
+      selectionEnd: endOffset,
+      startElement: startContainer,
+      endElement: endContainer
     })
   })
     .then(response => response.json())
