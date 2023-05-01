@@ -268,10 +268,9 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
   for (var i = 0; i < nodes.length; i++) {
     var rng = document.createRange();
     if (i == 0) {
-      rng.setStart(nodes[i].firstChild, startOffset);
-      rng.setEnd(nodes[i], nodes[i].childNodes.length);
+      rng.setStart(startContainer, startOffset);
+      rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
     } else if (i == nodes.length - 1) {
-      console.log(endContainer);
       rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
     } else {
