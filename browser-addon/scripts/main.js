@@ -270,6 +270,10 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     if (i == 0) {
       rng.setStart(nodes[i].firstChild, startOffset);
       rng.setEnd(nodes[i], nodes[i].childNodes.length);
+    } else if (i == nodes.length - 1) {
+      console.log(endContainer);
+      rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
+      rng.setEnd(endContainer, endOffset);
     } else {
       rng.selectNode(nodes[i]);
     }
