@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const endContainer = getPathTo(range.endContainer);
           const startOffset = range.startOffset;
           const endOffset = range.endOffset;
+          range.collapse();
           highlightText(selection.toString(), startContainer, endContainer, startOffset, endOffset);
         }
         event.preventDefault();
@@ -266,6 +267,8 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     .filter(node => range.comparePoint(node, node.nodeValue?.length ?? node.childNodes.length) >= 0)
     .filter(node => !whitespace.test(node.data));
 
+  range.collapse();
+
   for (var i = 0; i < nodes.length; i++) {
     var rng = document.createRange();
     if (i == 0) {
@@ -281,6 +284,7 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     const markElement = document.createElement('span');
     markElement.classList.add("locus-highlight");
     rng.surroundContents(markElement);
+    rng.collapse();
   }
 }
 
