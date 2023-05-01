@@ -363,3 +363,11 @@
 .md-char {
     color:rgb(73, 73, 78);
 }
+
+/***********
+ * Highlights
+ ***********/
+
+.locus-highlight {
+    background-color: #46b96c8c;
+}

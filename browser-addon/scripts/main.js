@@ -249,7 +249,8 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
 
   let root = range.commonAncestorContainer;
   if (root && root.nodeType == Node.TEXT_NODE) {
-    const markElement = document.createElement('mark');
+    const markElement = document.createElement('span');
+    markElement.classList.add("locus-highlight");
     range.surroundContents(markElement);
     return;
   }
@@ -277,7 +278,8 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
       rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
       rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
     }
-    const markElement = document.createElement('mark');
+    const markElement = document.createElement('span');
+    markElement.classList.add("locus-highlight");
     rng.surroundContents(markElement);
   }
 }
