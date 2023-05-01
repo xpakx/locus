@@ -267,7 +267,12 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
 
   for (var i = 0; i < nodes.length; i++) {
     var rng = document.createRange();
-    rng.selectNode(nodes[i]);
+    if (i == 0) {
+      rng.setStart(nodes[i].firstChild, startOffset);
+      rng.setEnd(nodes[i], nodes[i].childNodes.length);
+    } else {
+      rng.selectNode(nodes[i]);
+    }
     const markElement = document.createElement('mark');
     rng.surroundContents(markElement);
   }
