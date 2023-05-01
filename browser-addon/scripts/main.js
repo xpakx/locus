@@ -274,7 +274,8 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
       rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
     } else {
-      rng.selectNode(nodes[i]);
+      rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
+      rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
     }
     const markElement = document.createElement('mark');
     rng.surroundContents(markElement);
