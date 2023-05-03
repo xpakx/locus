@@ -26,10 +26,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "pages/main.html",
-        "pages/main-full.html",
-        "pages/highlighter.html",
-        "pages/youtube.html",
+        "pages/*",
         "styles/style.css",
         "icons/*"
       ],
