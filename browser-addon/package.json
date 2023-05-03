@@ -1,0 +1,18 @@
+{
+  "name": "locus",
+  "version": "1.0.0",
+  "description": "Browser add-on for knowledge management",
+  "scripts": {
+    "start": "parcel watch src/manifest.json",
+    "build": "parcel build src/manifest.json"
+  },
+  "author": "",
+  "devDependencies": {
+    "@parcel/config-webextension": "^2.8.3",
+    "parcel": "^2.8.3",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-web-ext-tool": "^0.2.2",
+    "typescript": "^5.0.4",
+    "web-ext": "^7.6.2"
+  }
+}

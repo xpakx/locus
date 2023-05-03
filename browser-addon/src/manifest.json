@@ -1,35 +1,51 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Locus Communis",
   "version": "1.0",
   "description": "Knowledge management add-on",
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["scripts/main.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/main.js"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["https://www.youtube.com/watch?v=*"],
-      "js": ["scripts/youtube.js"],
+      "matches": [
+        "https://www.youtube.com/watch?v=*"
+      ],
+      "js": [
+        "scripts/youtube.js"
+      ],
       "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
-    "pages/main.html", 
-    "pages/main-full.html", 
-    "pages/highlighter.html", 
-    "pages/youtube.html", 
-    "styles/style.css", 
-    "icons/*"
+    {
+      "resources": [
+        "pages/main.html",
+        "pages/main-full.html",
+        "pages/highlighter.html",
+        "pages/youtube.html",
+        "styles/style.css",
+        "icons/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ],
-  "browser_action": {
+  "action": {
     "default_icon": "icons/app-icon-32.png",
     "default_title": "Locus",
     "default_popup": "pages/toolbar.html"
   },
   "permissions": [
-    "storage", "tabs"
+    "storage",
+    "tabs"
   ],
   "background": {
     "service_worker": "scripts/background.js"
