@@ -302,6 +302,7 @@
 .text-input {
     padding: 5px 10px;
     display: flex;
+    flex-direction: column;
 }
 
 .text-input .markdown-input {
@@ -358,6 +359,25 @@
 .md-char {
     color:rgb(73, 73, 78);
 }
+
+.text-input.active .markdown-input {
+    border-radius: 6px 6px 0 0;
+}
+
+.text-input .controls {
+    display: none;
+    border-radius: 0 0 6px 6px;
+    padding: 10px;
+    min-height: 10px;
+    background-color: rgb(48, 49, 57);
+    color: rgb(133, 134, 142);
+    border-top: 1px solid rgb(133, 134, 142);
+}
+
+.text-input.active .controls {
+    display: block;
+}
+
 
 /***********
  * Highlights

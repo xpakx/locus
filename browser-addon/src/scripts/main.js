@@ -151,6 +151,14 @@ document.addEventListener('DOMContentLoaded', function () {
         setCaretPosition(markdownInput, caretPosition);
       });
 
+      markdownInput.addEventListener("focus", function () {
+        markdownInput.parentElement.classList.add("active");
+      });
+
+      markdownInput.addEventListener("blur", function () {
+        markdownInput.parentElement.classList.remove("active");
+      });
+
 
     });
 });
