@@ -156,9 +156,16 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       markdownInput.addEventListener("blur", function () {
-        markdownInput.parentElement.classList.remove("active");
+        //markdownInput.parentElement.classList.remove("active");
       });
 
+      let sendBtn = markdownInput.parentElement.querySelector(".send-btn");
+      sendBtn.addEventListener('click', function (event) {
+        console.log('Send annotation button clicked');
+        var text = markdownInput.innerHTML;
+        text = text.replace(/(<([^>]+)>)/g, "");
+        addPageAnnotation(text);
+      });
 
     });
 });
@@ -410,7 +417,6 @@ function getNodeFromPath(path) {
 }
 
 function addPageAnnotation(pageAnnotation) {
-  applyHighlight(startContainer, endContainer, startOffset, endOffset);
   fetch(`${apiUri}/annotations`, {
     method: 'POST',
     headers: {
