@@ -357,7 +357,7 @@
 }
 
 .md-char {
-    color:rgb(73, 73, 78);
+    color: rgb(73, 73, 78);
 }
 
 .text-input.active .markdown-input {
@@ -371,13 +371,48 @@
     min-height: 10px;
     background-color: rgb(48, 49, 57);
     color: rgb(133, 134, 142);
-    border-top: 1px solid rgb(133, 134, 142);
+    border-top: 1px solid #43637c;
 }
 
 .text-input.active .controls {
-    display: block;
+    display: flex;
 }
 
+.send-btn {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    width: fit-content;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    gap: 4px;
+    color: white;
+    background-color: #ff6600;
+    padding: 4px 5px;
+    line-height: 1em;
+}
+
+.send-btn:hover {
+    background-color: #ff9800;
+    cursor: pointer;
+}
+
+.send-btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
 
 /***********
  * Highlights

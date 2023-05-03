@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const annotationsButton = toolbar.querySelector('.highlight').parentElement.parentElement;
       annotationsButton.addEventListener('click', function (event) {
-        console.log('Open fulll sidebar button clicked');
+        console.log('Open full sidebar button clicked');
         showFullsidebar();
       });
 
