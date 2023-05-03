@@ -232,8 +232,6 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
   })
     .then(response => response.json())
     .then(data => {
-      heartIcon.classList.toggle('fav', true);
-      bookmarked = true;
       applyHighlight(startContainer, endContainer, startOffset, endOffset);
     })
     .catch(error => {
@@ -401,4 +399,31 @@ function getNodeFromPath(path) {
   const nodeIndex = parseInt(pathArray[pathArray.length - 1]);
 
   return currentNode.childNodes[nodeIndex];
+}
+
+function addPageAnnotation(pageAnnotation) {
+  applyHighlight(startContainer, endContainer, startOffset, endOffset);
+  fetch(`${apiUri}/annotations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      url: url,
+      highlightedText: null,
+      annotation: pageAnnotation,
+      selectionStart: null,
+      selectionEnd: null,
+      startElement: null,
+      endElement: null
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      // TODO: show annotation in sidebar
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
 }
