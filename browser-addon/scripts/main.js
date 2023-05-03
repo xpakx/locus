@@ -274,11 +274,21 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     if (i == 0) {
       rng.setStart(startContainer, startOffset);
       rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
+      if(startContainer.parentElement !== nodes[i] && startContainer !== nodes[i]) {
+        // TODO
+        console.error("Cannot show full highlight!");
+        continue;
+      }
     } else if (i == nodes.length - 1) {
-      rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
+      rng.setStart(nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
+      if(endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
+        // TODO
+        console.error("Cannot show full highlight!");
+        continue;
+      }
     } else {
-      rng.setStart(nodes[i].firstChild ?? nodes[i], 0);
+      rng.setStart(nodes[i], 0);
       rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
     }
     const markElement = document.createElement('span');
