@@ -30,4 +30,9 @@ public class AnnotationController {
     public List<Highlight> getAnnotations(@RequestParam String url, Principal principal) {
         return service.getAnnotationsForUrl(url, principal.getName());
     }
+
+    @DeleteMapping("/{annotationId}")
+    public void deleteAnnotation(@PathVariable Long annotationId, Principal principal) {
+        service.deleteAnnotation(annotationId, principal.getName());
+    }
 }

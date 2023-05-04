@@ -43,4 +43,13 @@ public class AnnotationService {
     public List<Highlight> getAnnotationsForUrl(String url, String username) {
         return highlightRepository.findByUrlAndOwner(url, username);
     }
+
+    public void deleteAnnotation(Long id, String username) {
+        Highlight highlight = highlightRepository.findById(id)
+                .orElseThrow();
+        if(!highlight.getOwner().equals(username)) {
+            return;
+        }
+        highlightRepository.delete(highlight);
+    }
 }
