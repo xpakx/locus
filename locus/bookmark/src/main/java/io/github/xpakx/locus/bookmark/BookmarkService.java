@@ -66,4 +66,12 @@ public class BookmarkService {
         );
     }
 
+    public void deleteBookmark(Long id, String username) {
+        Bookmark bookmark = bookmarkRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No bookmark with id %s".formatted(id)));
+        if(!bookmark.getOwner().equals(username)) {
+            throw new NotFoundException("No bookmark with id %s".formatted(id));
+        }
+        bookmarkRepository.delete(bookmark);
+    }
 }

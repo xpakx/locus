@@ -48,4 +48,9 @@ public class BookmarkController {
     public BooleanResponse checkBookmarkExistence(@RequestParam String url, Principal principal) {
         return bookmarkService.checkBookmarkForUrl(url, principal.getName());
     }
+
+    @DeleteMapping("/{bookmarkId}")
+    public void deleteBookmark(@PathVariable Long bookmarkId, Principal principal) {
+        bookmarkService.deleteBookmark(bookmarkId, principal.getName());
+    }
 }
