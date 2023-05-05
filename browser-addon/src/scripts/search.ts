@@ -11,20 +11,12 @@ chrome.storage.local.get('token', function (result) {
     }
 });
 
-const testBookmarks: BookmarkSummary[] = [
-    { id: 1, name: "Bookmark 1", url: "https://example.com/1", date: "" },
-    { id: 2, name: "Bookmark 2", url: "https://example.com/2", date: "" },
-    { id: 3, name: "Bookmark 3", url: "https://example.com/3", date: "" },
-    { id: 4, name: "Bookmark 4", url: "https://example.com/4", date: "" },
-]
-
 document.addEventListener('DOMContentLoaded', function () {
     bookmarkContainer = document.querySelector(".bookmarks");
     fetch(chrome.runtime.getURL("pages/bookmark.html"))
         .then(response => response.text())
         .then(html => {
             bookmarkTemplate = html;
-            showBookmarks(testBookmarks);
             getAllBookmarks();
         });
 });
@@ -32,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
 function showBookmarks(bookmarks: BookmarkSummary[]) {
     if (!bookmarkContainer) {
         return;
+    }
+    if(bookmarks.length === 0) {
+        bookmarkContainer.innerHTML = "No bookmarks!";
     }
     for (let bookmark of bookmarks) {
         var bookmarkElem = document.createElement("div");
@@ -60,6 +55,7 @@ function getAllBookmarks() {
         })
         .catch(error => {
             console.error('An error occurred:', error);
+            showBookmarkError();
         });
 }
 
@@ -70,5 +66,13 @@ function searchBookmarks(searchString: string) {
         })
         .catch(error => {
             console.error('An error occurred:', error);
+            showBookmarkError();
         });
+}
+
+function showBookmarkError() {
+    if (!bookmarkContainer) {
+        return;
+    }
+    bookmarkContainer.innerHTML = "Couldn't fetch bookmarks!";
 }
