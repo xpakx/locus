@@ -8,6 +8,7 @@ var bookmarked = false;
 var toolbarDiv = null;
 var sidebarDiv = null;
 var markdownInput = null;
+var bookmarkId = null;
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -36,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Bookmark button clicked');
         if (!bookmarked) {
           addBookmark();
+        } else if(bookmarkId != null) {
+          deleteBookmark(bookmarkId);
         }
       });
 
@@ -208,6 +211,26 @@ function addBookmark() {
     .then(data => {
       heartIcon.classList.toggle('fav', true);
       bookmarked = true;
+      bookmarkId = data.id;
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
+}
+
+function deleteBookmark(id) {
+  fetch(`${apiUri}/bookmarks/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      heartIcon.classList.toggle('fav', false);
+      bookmarked = false;
+      bookmarkId = null;
     })
     .catch(error => {
       console.error('An error occurred:', error);
