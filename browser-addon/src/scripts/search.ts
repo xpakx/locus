@@ -1,9 +1,9 @@
 import { BookmarkSummary } from "./dto/bookmark-summary"
+import { fetchAllBookmarks, searchBookmarksByString } from "./service/bookmark-service";
 
 var bookmarkContainer: HTMLElement | null = null;
 var bookmarkTemplate: string = "";
-const apiUri = "http://localhost:8000/api/v1";
-var token = null;
+var token = undefined;
 
 chrome.storage.local.get('token', function (result) {
     if (result.token) {
@@ -54,14 +54,7 @@ function showBookmarks(bookmarks: BookmarkSummary[]) {
 }
 
 function getAllBookmarks() {
-    fetch(`${apiUri}/bookmarks/all`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
-    })
-        .then(response => response.json())
+    fetchAllBookmarks(token)
         .then((data: BookmarkSummary[]) => {
             showBookmarks(data);
         })
@@ -71,14 +64,7 @@ function getAllBookmarks() {
 }
 
 function searchBookmarks(searchString: string) {
-    fetch(`${apiUri}/bookmarks?` + new URLSearchParams({searchString: searchString}), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
-    })
-        .then(response => response.json())
+    searchBookmarksByString(searchString, token)
         .then((data: BookmarkSummary[]) => {
             showBookmarks(data);
         })
