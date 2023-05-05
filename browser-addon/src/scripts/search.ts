@@ -69,3 +69,20 @@ function getAllBookmarks() {
             console.error('An error occurred:', error);
         });
 }
+
+function searchBookmarks(searchString: string) {
+    fetch(`${apiUri}/bookmarks?` + new URLSearchParams({searchString: searchString}), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(response => response.json())
+        .then((data: BookmarkSummary[]) => {
+            showBookmarks(data);
+        })
+        .catch(error => {
+            console.error('An error occurred:', error);
+        });
+}
