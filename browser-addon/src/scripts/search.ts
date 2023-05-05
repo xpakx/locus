@@ -2,10 +2,10 @@ var bookmarkContainer: HTMLElement | null = null;
 var bookmarkTemplate: string = "";
 
 const testBookmarks = [
-    {id: 1, txt: "Bookmark 1"},
-    {id: 2, txt: "Bookmark 2"},
-    {id: 3, txt: "Bookmark 3"},
-    {id: 4, txt: "Bookmark 4"},
+    {id: 1, name: "Bookmark 1", url: "https://example.com/1", date: ""},
+    {id: 2, name: "Bookmark 2", url: "https://example.com/2", date: ""},
+    {id: 3, name: "Bookmark 3", url: "https://example.com/3", date: ""},
+    {id: 4, name: "Bookmark 4", url: "https://example.com/4", date: ""},
 ]
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -26,9 +26,17 @@ function showTestBookmarks() {
         var bookmarkElem = document.createElement("div");
         bookmarkElem.classList.add("bookmark");
         bookmarkElem.innerHTML = bookmarkTemplate;
-        var bookmarkText = bookmarkElem.querySelector(".text");
-        if(bookmarkText) {
-            bookmarkText.innerHTML = bookmark.txt;
+        var bookmarkName = bookmarkElem.querySelector(".bookmark-name");
+        if(bookmarkName) {
+            bookmarkName.innerHTML = bookmark.name;
+        }
+        var bookmarkDate = bookmarkElem.querySelector(".date");
+        if(bookmarkDate) {
+            bookmarkDate.innerHTML = bookmark.date;
+        }
+        var bookmarkLink = <HTMLAnchorElement> bookmarkElem.querySelector(".bookmark-link");
+        if(bookmarkLink) {
+            bookmarkLink.href = bookmark.url;
         }
         bookmarkContainer.insertBefore(bookmarkElem, bookmarkContainer.firstChild);
     }
