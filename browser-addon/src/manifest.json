@@ -18,7 +18,7 @@
         "https://www.youtube.com/watch?v=*"
       ],
       "js": [
-        "scripts/youtube.js"
+        "scripts/youtube.ts"
       ],
       "run_at": "document_start"
     }
@@ -45,6 +45,6 @@
     "tabs"
   ],
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "scripts/background.ts"
   }
 }

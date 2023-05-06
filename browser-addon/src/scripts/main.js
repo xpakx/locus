@@ -341,8 +341,6 @@ function applySubhighlights(nodes, startContainer, startOffset, endContainer, en
   }
 }
 
-
-
 function showFullsidebar() {
   toolbarDiv.style.display = "none";
   sidebarDiv.style.display = "flex";
