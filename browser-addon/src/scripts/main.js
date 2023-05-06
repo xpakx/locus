@@ -252,7 +252,7 @@ document.addEventListener('keydown', function (event) {
 });
 
 function highlightText(text, startContainer, endContainer, startOffset, endOffset) {
-  applyHighlight(startContainer, endContainer, startOffset, endOffset);
+  prepareHighlight(startContainer, endContainer, startOffset, endOffset);
   fetch(`${apiUri}/annotations`, {
     method: 'POST',
     headers: {
@@ -270,20 +270,23 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
   })
     .then(response => response.json())
     .then(data => {
-      applyHighlight(startContainer, endContainer, startOffset, endOffset);
+      prepareHighlight(startContainer, endContainer, startOffset, endOffset);
     })
     .catch(error => {
       console.error('An error occurred:', error);
     });
 }
 
-function applyHighlight(startPath, endPath, startOffset, endOffset) {
+function prepareHighlight(startPath, endPath, startOffset, endOffset) {
   const startContainer = getNodeFromPath(startPath);
   const endContainer = getNodeFromPath(endPath);
   const range = document.createRange();
   range.setStart(startContainer, startOffset);
   range.setEnd(endContainer, endOffset);
+  applyHighlight(startContainer, startOffset, endContainer, endOffset, range);
+}
 
+function applyHighlight(startContainer, startOffset, endContainer, endOffset, range) {
   let root = range.commonAncestorContainer;
   if (root && root.nodeType == Node.TEXT_NODE) {
     const markElement = document.createElement('span');
@@ -316,15 +319,14 @@ function applySubhighlights(nodes, startContainer, startOffset, endContainer, en
       rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
       if (startContainer.parentElement !== nodes[i] && startContainer !== nodes[i]) {
         // TODO
-        console.error("Cannot show full highlight!");
+        applyHighlight(startContainer, startOffset, nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length, rng);
         continue;
       }
     } else if (i == nodes.length - 1) {
       rng.setStart(nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
       if (endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
-        // TODO
-        console.error("Cannot show full highlight!");
+        applyHighlight(nodes[i], 0, endContainer, endOffset, rng);
         continue;
       }
     } else {
@@ -337,6 +339,8 @@ function applySubhighlights(nodes, startContainer, startOffset, endContainer, en
     rng.collapse();
   }
 }
+
+
 
 function showFullsidebar() {
   toolbarDiv.style.display = "none";
