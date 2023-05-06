@@ -318,14 +318,15 @@ function applySubhighlights(nodes, startContainer, startOffset, endContainer, en
       rng.setStart(startContainer, startOffset);
       rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
       if (startContainer.parentElement !== nodes[i] && startContainer !== nodes[i]) {
-        // TODO
-        applyHighlight(startContainer, startOffset, nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length, rng);
+        const newEndOffset = nodes[i].nodeValue?.length ?? nodes[i].childNodes.length;
+        applyHighlight(startContainer, startOffset, nodes[i], newEndOffset, rng);
         continue;
       }
     } else if (i == nodes.length - 1) {
       rng.setStart(nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
       if (endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
+        // TODO
         applyHighlight(nodes[i], 0, endContainer, endOffset, rng);
         continue;
       }
