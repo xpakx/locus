@@ -303,6 +303,10 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     .filter(node => range.comparePoint(node, node.nodeValue?.length ?? node.childNodes.length) >= 0)
     .filter(node => !whitespace.test(node.data));
 
+  applySubhighlights(nodes, startContainer, startOffset, endContainer, endOffset, range);
+}
+
+function applySubhighlights(nodes, startContainer, startOffset, endContainer, endOffset, range) {
   range.collapse();
 
   for (var i = 0; i < nodes.length; i++) {
@@ -310,7 +314,7 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     if (i == 0) {
       rng.setStart(startContainer, startOffset);
       rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
-      if(startContainer.parentElement !== nodes[i] && startContainer !== nodes[i]) {
+      if (startContainer.parentElement !== nodes[i] && startContainer !== nodes[i]) {
         // TODO
         console.error("Cannot show full highlight!");
         continue;
@@ -318,7 +322,7 @@ function applyHighlight(startPath, endPath, startOffset, endOffset) {
     } else if (i == nodes.length - 1) {
       rng.setStart(nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
-      if(endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
+      if (endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
         // TODO
         console.error("Cannot show full highlight!");
         continue;
