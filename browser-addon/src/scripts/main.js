@@ -326,8 +326,8 @@ function applySubhighlights(nodes, startContainer, startOffset, endContainer, en
       rng.setStart(nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
       if (endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
-        // TODO
-        applyHighlight(nodes[i], 0, endContainer, endOffset, rng);
+        const newStartNode = nodes[i].nodeType == Node.TEXT_NODE ? nodes[i] : nodes[i].firstChild; 
+        applyHighlight(newStartNode, 0, endContainer, endOffset, rng);
         continue;
       }
     } else {
