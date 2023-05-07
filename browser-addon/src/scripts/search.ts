@@ -5,6 +5,7 @@ var bookmarkContainer: HTMLElement | null = null;
 var bookmarkTemplate: string = "";
 var token = undefined;
 var bookmarks = new BookmarkService();
+var searchInput: HTMLInputElement | null = null;
 
 chrome.storage.local.get('token', function (result) {
     if (result.token) {
@@ -20,13 +21,25 @@ document.addEventListener('DOMContentLoaded', function () {
             bookmarkTemplate = html;
             getAllBookmarks();
         });
+
+
+        searchInput = document.querySelector('.search-input');
+
+        const searchButton = document.querySelector('.search-btn');
+        searchButton?.addEventListener('click', function (event) {
+            console.log('Search button clicked');
+            const text: string | undefined = searchInput?.value;
+            if(text) {
+                searchBookmarks(text);
+            }
+        });
 });
 
 function showBookmarks(bookmarks: BookmarkSummary[]) {
     if (!bookmarkContainer) {
         return;
     }
-    if(bookmarks.length === 0) {
+    if (bookmarks.length === 0) {
         bookmarkContainer.innerHTML = "No bookmarks!";
     }
     for (let bookmark of bookmarks) {
