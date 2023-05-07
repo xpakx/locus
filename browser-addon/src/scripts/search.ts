@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
             getAllBookmarks();
         });
 
-
         searchInput = document.querySelector('.search-input');
 
         const searchButton = document.querySelector('.search-btn');

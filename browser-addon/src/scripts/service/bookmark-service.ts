@@ -18,7 +18,8 @@ export class BookmarkService {
     }
 
     async searchBookmarksByString(searchString: string, token?: string) {
-        const response = await fetch(`${this.apiUri}/bookmarks?` + new URLSearchParams({ searchString: searchString }), {
+        const params = new URLSearchParams({ searchString: searchString });
+        const response = await fetch(`${this.apiUri}/bookmarks?` + params, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
