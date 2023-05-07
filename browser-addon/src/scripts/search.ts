@@ -1,9 +1,10 @@
 import { BookmarkSummary } from "./dto/bookmark-summary"
-import { fetchAllBookmarks, searchBookmarksByString } from "./service/bookmark-service";
+import { BookmarkService } from "./service/bookmark-service";
 
 var bookmarkContainer: HTMLElement | null = null;
 var bookmarkTemplate: string = "";
 var token = undefined;
+var bookmarks = new BookmarkService();
 
 chrome.storage.local.get('token', function (result) {
     if (result.token) {
@@ -49,7 +50,7 @@ function showBookmarks(bookmarks: BookmarkSummary[]) {
 }
 
 function getAllBookmarks() {
-    fetchAllBookmarks(token)
+    bookmarks.fetchAllBookmarks(token)
         .then((data: BookmarkSummary[]) => {
             showBookmarks(data);
         })
@@ -60,7 +61,7 @@ function getAllBookmarks() {
 }
 
 function searchBookmarks(searchString: string) {
-    searchBookmarksByString(searchString, token)
+    bookmarks.searchBookmarksByString(searchString, token)
         .then((data: BookmarkSummary[]) => {
             showBookmarks(data);
         })
