@@ -1,3 +1,5 @@
+import { AnnotationService } from "./service/annotation-service";
+
 const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
 const runtime = typeof browser !== "undefined" ? browser.runtime : chrome.runtime;
@@ -9,6 +11,7 @@ var toolbarDiv = null;
 var sidebarDiv = null;
 var markdownInput = null;
 var bookmarkId = null;
+var annotationService = new AnnotationService();
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -29,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
       heartIcon = toolbar.querySelector('.heart');
       if (token) {
         checkBookmark();
+        fetchAnnotations();
       }
       console.log(chrome);
 
@@ -466,6 +470,21 @@ function addPageAnnotation(pageAnnotation) {
     .then(response => response.json())
     .then(data => {
       // TODO: show annotation in sidebar
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
+}
+
+function fetchAnnotations() {
+  if(!url) {
+    return;
+  }
+  annotationService.fetchAllAnnotations(url, token)
+    .then(data => {
+      for(let annotation of data) {
+        prepareHighlight(data.startElement, data.endElement, data.selectionStart, data.selectionEnd)
+      }
     })
     .catch(error => {
       console.error('An error occurred:', error);
