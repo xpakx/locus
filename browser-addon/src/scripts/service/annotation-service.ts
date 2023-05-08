@@ -6,8 +6,9 @@ export class AnnotationService {
     constructor() {
     }
 
-    async fetchAllAnnotations(token?: string): Promise<Annotation[]> {
-        const response = await fetch(`${this.apiUri}/annotations/all`, {
+    async fetchAllAnnotations(url: string, token?: string): Promise<Annotation[]> {
+        const params = new URLSearchParams({ url: url });
+        const response = await fetch(`${this.apiUri}/annotations/all?` + params, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
