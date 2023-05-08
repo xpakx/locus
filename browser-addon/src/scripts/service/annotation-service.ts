@@ -17,4 +17,32 @@ export class AnnotationService {
         });
         return await response.json();
     }
+
+    async addAnnotation(url: string,
+        pageAnnotation: string,
+        text: string,
+        startElement: string,
+        selectionStart: number,
+        endElement: string,
+        selectionEnd: number,
+        token?: string): Promise<Annotation> {
+
+        const response = await fetch(`${this.apiUri}/annotations`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                url: url,
+                highlightedText: text,
+                annotation: pageAnnotation,
+                selectionStart: selectionStart,
+                selectionEnd: selectionEnd,
+                startElement: startElement,
+                endElement: endElement
+            })
+        })
+        return await response.json();
+    }
 }

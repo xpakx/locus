@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Bookmark button clicked');
         if (!bookmarked) {
           addBookmark();
-        } else if(bookmarkId != null) {
+        } else if (bookmarkId != null) {
           deleteBookmark(bookmarkId);
         }
       });
@@ -257,22 +257,7 @@ document.addEventListener('keydown', function (event) {
 
 function highlightText(text, startContainer, endContainer, startOffset, endOffset) {
   prepareHighlight(startContainer, endContainer, startOffset, endOffset);
-  fetch(`${apiUri}/annotations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    body: JSON.stringify({
-      url: url,
-      highlightedText: text,
-      selectionStart: startOffset,
-      selectionEnd: endOffset,
-      startElement: startContainer,
-      endElement: endContainer
-    })
-  })
-    .then(response => response.json())
+  annotationService.addAnnotation(url, null, text, startContainer, startOffset, endContainer, endOffset, token)
     .then(data => {
       prepareHighlight(startContainer, endContainer, startOffset, endOffset);
     })
@@ -330,7 +315,7 @@ function applySubhighlights(nodes, startContainer, startOffset, endContainer, en
       rng.setStart(nodes[i], 0);
       rng.setEnd(endContainer, endOffset);
       if (endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
-        const newStartNode = nodes[i].nodeType == Node.TEXT_NODE ? nodes[i] : nodes[i].firstChild; 
+        const newStartNode = nodes[i].nodeType == Node.TEXT_NODE ? nodes[i] : nodes[i].firstChild;
         applyHighlight(newStartNode, 0, endContainer, endOffset, rng);
         continue;
       }
@@ -451,23 +436,7 @@ function getNodeFromPath(path) {
 }
 
 function addPageAnnotation(pageAnnotation) {
-  fetch(`${apiUri}/annotations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    body: JSON.stringify({
-      url: url,
-      highlightedText: null,
-      annotation: pageAnnotation,
-      selectionStart: null,
-      selectionEnd: null,
-      startElement: null,
-      endElement: null
-    })
-  })
-    .then(response => response.json())
+  annotationService.addAnnotation(url, pageAnnotation, null, null, null, null, null, token)
     .then(data => {
       // TODO: show annotation in sidebar
     })
@@ -477,12 +446,12 @@ function addPageAnnotation(pageAnnotation) {
 }
 
 function fetchAnnotations() {
-  if(!url) {
+  if (!url) {
     return;
   }
   annotationService.fetchAllAnnotations(url, token)
     .then(data => {
-      for(let annotation of data) {
+      for (let annotation of data) {
         prepareHighlight(data.startElement, data.endElement, data.selectionStart, data.selectionEnd)
       }
     })
