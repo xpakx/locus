@@ -1,4 +1,5 @@
 import { AnnotationService } from "./service/annotation-service";
+import { BookmarkService, BookmarkService } from "./service/bookmark-service";
 
 const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
@@ -12,6 +13,7 @@ var sidebarDiv = null;
 var markdownInput = null;
 var bookmarkId = null;
 var annotationService = new AnnotationService();
+var bookmarkService = new BookmarkService();
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -178,17 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function checkBookmark() {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + token
-  };
-  const options = {
-    method: 'GET',
-    headers: headers
-  };
-
-  fetch(`${apiUri}/bookmarks/check?url=${encodeURIComponent(url)}`, options)
-    .then(response => response.json())
+  bookmarkService.checkBookmark(url, token)
     .then(data => {
       const heartIcon = document.querySelector('.heart')[0];
       console.log(heartIcon);
@@ -201,17 +193,7 @@ function checkBookmark() {
 }
 
 function addBookmark() {
-  fetch(`${apiUri}/bookmarks`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    body: JSON.stringify({
-      url: url
-    })
-  })
-    .then(response => response.json())
+  bookmarkService.addBookmark(url, token)
     .then(data => {
       heartIcon.classList.toggle('fav', true);
       bookmarked = true;
@@ -223,14 +205,7 @@ function addBookmark() {
 }
 
 function deleteBookmark(id) {
-  fetch(`${apiUri}/bookmarks/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    }
-  })
-    .then(response => response.json())
+  bookmarkService.deleteBookmark(id, token)
     .then(data => {
       heartIcon.classList.toggle('fav', false);
       bookmarked = false;
