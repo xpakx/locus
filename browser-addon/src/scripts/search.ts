@@ -22,16 +22,25 @@ document.addEventListener('DOMContentLoaded', function () {
             getAllBookmarks();
         });
 
-        searchInput = document.querySelector('.search-input');
+    searchInput = document.querySelector('.search-input');
 
-        const searchButton = document.querySelector('.search-btn');
-        searchButton?.addEventListener('click', function (event) {
-            console.log('Search button clicked');
-            const text: string | undefined = searchInput?.value;
-            if(text) {
-                searchBookmarks(text);
-            }
+    const searchButton = document.querySelector('.search-btn');
+    searchButton?.addEventListener('click', function (event) {
+        console.log('Search button clicked');
+        const text: string | undefined = searchInput?.value;
+        if (text) {
+            searchBookmarks(text);
+        }
+    });
+
+    fetch(chrome.runtime.getURL("styles/search.css"))
+        .then(response => response.text())
+        .then(css => {
+            var style = document.createElement("style");
+            style.innerHTML = css;
+            document.head.insertAdjacentElement('beforeend', style);
         });
+
 });
 
 function showBookmarks(bookmarks: BookmarkSummary[]) {

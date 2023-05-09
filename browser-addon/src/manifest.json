@@ -28,6 +28,7 @@
       "resources": [
         "pages/*",
         "styles/style.css",
+        "styles/search.css",
         "icons/*"
       ],
       "matches": [
