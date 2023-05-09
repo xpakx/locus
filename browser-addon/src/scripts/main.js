@@ -1,5 +1,6 @@
 import { AnnotationService } from "./service/annotation-service";
 import { BookmarkService, BookmarkService } from "./service/bookmark-service";
+import { HighlightService } from "./service/highlight-service";
 
 const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
@@ -14,6 +15,7 @@ var markdownInput = null;
 var bookmarkId = null;
 var annotationService = new AnnotationService();
 var bookmarkService = new BookmarkService();
+var highlightService = new HighlightService();
 
 storage.local.get('token', function (result) {
   if (result.token) {
@@ -231,7 +233,7 @@ document.addEventListener('keydown', function (event) {
 });
 
 function highlightText(text, startContainer, endContainer, startOffset, endOffset) {
-  prepareHighlight(startContainer, endContainer, startOffset, endOffset);
+  highlightService.prepareHighlight(startContainer, endContainer, startOffset, endOffset);
   annotationService.addAnnotation(url, null, text, startContainer, startOffset, endContainer, endOffset, token)
     .then(data => {
       prepareHighlight(startContainer, endContainer, startOffset, endOffset);
@@ -239,70 +241,6 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
     .catch(error => {
       console.error('An error occurred:', error);
     });
-}
-
-function prepareHighlight(startPath, endPath, startOffset, endOffset) {
-  const startContainer = getNodeFromPath(startPath);
-  const endContainer = getNodeFromPath(endPath);
-  const range = document.createRange();
-  range.setStart(startContainer, startOffset);
-  range.setEnd(endContainer, endOffset);
-  applyHighlight(startContainer, startOffset, endContainer, endOffset, range);
-}
-
-function applyHighlight(startContainer, startOffset, endContainer, endOffset, range) {
-  let root = range.commonAncestorContainer;
-  if (root && root.nodeType == Node.TEXT_NODE) {
-    const markElement = document.createElement('span');
-    markElement.classList.add("locus-highlight");
-    range.surroundContents(markElement);
-    return;
-  }
-
-  if (root && root.nodeType !== Node.ELEMENT_NODE) {
-    root = root.parentElement;
-  } else if (!root) {
-    return;
-  }
-  const whitespace = /^\s*$/;
-  let nodes = Array.from(root.childNodes)
-    .filter(node => range.comparePoint(node, 0) <= 0)
-    .filter(node => range.comparePoint(node, node.nodeValue?.length ?? node.childNodes.length) >= 0)
-    .filter(node => !whitespace.test(node.data));
-
-  applySubhighlights(nodes, startContainer, startOffset, endContainer, endOffset, range);
-}
-
-function applySubhighlights(nodes, startContainer, startOffset, endContainer, endOffset, range) {
-  range.collapse();
-
-  for (var i = 0; i < nodes.length; i++) {
-    var rng = document.createRange();
-    if (i == 0) {
-      rng.setStart(startContainer, startOffset);
-      rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
-      if (startContainer.parentElement !== nodes[i] && startContainer !== nodes[i]) {
-        const newEndOffset = nodes[i].nodeValue?.length ?? nodes[i].childNodes.length;
-        applyHighlight(startContainer, startOffset, nodes[i], newEndOffset, rng);
-        continue;
-      }
-    } else if (i == nodes.length - 1) {
-      rng.setStart(nodes[i], 0);
-      rng.setEnd(endContainer, endOffset);
-      if (endContainer.parentElement !== nodes[i] && endContainer !== nodes[i]) {
-        const newStartNode = nodes[i].nodeType == Node.TEXT_NODE ? nodes[i] : nodes[i].firstChild;
-        applyHighlight(newStartNode, 0, endContainer, endOffset, rng);
-        continue;
-      }
-    } else {
-      rng.setStart(nodes[i], 0);
-      rng.setEnd(nodes[i], nodes[i].nodeValue?.length ?? nodes[i].childNodes.length);
-    }
-    const markElement = document.createElement('span');
-    markElement.classList.add("locus-highlight");
-    rng.surroundContents(markElement);
-    rng.collapse();
-  }
 }
 
 function showFullsidebar() {
