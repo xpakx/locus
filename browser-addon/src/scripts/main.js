@@ -2,7 +2,6 @@ import { AnnotationService } from "./service/annotation-service";
 import { BookmarkService, BookmarkService } from "./service/bookmark-service";
 import { HighlightService } from "./service/highlight-service";
 
-const apiUri = "http://localhost:8000/api/v1";
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
 const runtime = typeof browser !== "undefined" ? browser.runtime : chrome.runtime;
 const url = window.location.href;
@@ -287,23 +286,6 @@ function setCaretPosition(element, position) {
   }
 }
 
-function getNodeAtPosition(element, position) {
-  var currentNode = element;
-  var totalLength = 0;
-  for (var i = 0; i < currentNode.childNodes.length; i++) {
-    var childNode = currentNode.childNodes[i];
-    var childLength = childNode.textContent.length;
-    if (totalLength + childLength >= position) {
-      if (childNode.nodeType == Node.TEXT_NODE) {
-        return childNode;
-      } else {
-        return getNodeAtPosition(childNode, position - totalLength);
-      }
-    }
-    totalLength += childLength;
-  }
-}
-
 function getPathTo(node) {
   const path = [];
   const nodeIndex = Array.from(node.parentElement.childNodes).indexOf(node);;
@@ -318,34 +300,6 @@ function getPathTo(node) {
     currentElem = currentElem.parentElement;
   }
   return path.join('/');
-}
-
-function getNodeFromPath(path) {
-  const pathArray = path.split('/');
-  let currentNode = document.body;
-
-  for (let i = 0; i < pathArray.length - 1; i++) {
-    const [tagName, index] = pathArray[i].replace(/[}]/g, '').split('{');
-    const childNodes = currentNode.children;
-    let matchingNode = null;
-    const filteredNodes = Array.from(childNodes)
-      .filter(node => node.nodeName === tagName.toUpperCase());
-    const idx = parseInt(index);
-    if (idx < filteredNodes.length) {
-      matchingNode = filteredNodes[idx];
-    }
-
-    if (!matchingNode) {
-      console.error("No such node");
-      return null;
-    }
-
-    currentNode = matchingNode;
-  }
-
-  const nodeIndex = parseInt(pathArray[pathArray.length - 1]);
-
-  return currentNode.childNodes[nodeIndex];
 }
 
 function addPageAnnotation(pageAnnotation) {
