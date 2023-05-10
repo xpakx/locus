@@ -5,7 +5,6 @@ import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import io.github.xpakx.locus.bookmark.dto.BookmarkSummary;
 import io.github.xpakx.locus.bookmark.dto.BooleanResponse;
 import io.github.xpakx.locus.bookmark.error.NotFoundException;
-import io.github.xpakx.locus.downloader.WebpageDownloader;
 import io.github.xpakx.locus.elasticsearch.SaveToElasticSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,24 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
-    private final List<WebpageDownloader> downloaders;
 
     @SaveToElasticSearch
     public BookmarkDto addBookmark(BookmarkRequest request, String username) {
         Bookmark bookmark = new Bookmark();
         bookmark.setUrl(request.url());
         bookmark.setDate(LocalDate.now());
-        bookmark.setContent(extractContent(request.url()));
+        //TODO bookmark.setContent(extractContent(request.url()));
         bookmark.setOwner(username);
         return BookmarkDto.of(bookmarkRepository.save(bookmark));
-    }
-
-    private String extractContent(String url) {
-        return downloaders.stream()
-                .filter((a) -> a.isApplicable(url))
-                .map((a) -> a.getContentForUrl(url))
-                .findFirst()
-                .orElse("");
     }
 
     public BookmarkDto getBookmarkById(Long id) {

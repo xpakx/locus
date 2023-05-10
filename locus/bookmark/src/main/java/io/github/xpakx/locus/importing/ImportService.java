@@ -4,8 +4,6 @@ import io.github.xpakx.locus.bookmark.Bookmark;
 import io.github.xpakx.locus.bookmark.BookmarkRepository;
 import io.github.xpakx.locus.bookmark.dto.BookmarkDto;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
-import io.github.xpakx.locus.downloader.WebpageDownloader;
-import io.github.xpakx.locus.elasticsearch.BookmarkESRepository;
 import io.github.xpakx.locus.elasticsearch.SaveToElasticSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,6 @@ import java.util.List;
 public class ImportService {
     private final BookmarkHtmlExtractor htmlExtractor;
     private final BookmarkRepository bookmarkRepository;
-    private final List<WebpageDownloader> downloaders;
 
     @SaveToElasticSearch
     public List<BookmarkDto> saveBookmarksFromHtml(MultipartFile file, String username) {
@@ -61,16 +58,8 @@ public class ImportService {
         Bookmark bookmark = new Bookmark();
         bookmark.setUrl(request.url());
         bookmark.setDate(LocalDate.now());
-        bookmark.setContent(extractContent(request.url()));
+        // TODO bookmark.setContent(extractContent(request.url()));
         bookmark.setOwner(username);
         return bookmark;
-    }
-
-    private String extractContent(String url) {
-        return downloaders.stream()
-                .filter((a) -> a.isApplicable(url))
-                .map((a) -> a.getContentForUrl(url))
-                .findFirst()
-                .orElse("");
     }
 }

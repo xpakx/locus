@@ -2,7 +2,6 @@ package io.github.xpakx.locus.importing;
 
 import io.github.xpakx.locus.bookmark.BookmarkRepository;
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
-import io.github.xpakx.locus.downloader.UrlReaderService;
 import io.github.xpakx.locus.elasticsearch.ElasticSearchAspect;
 import io.github.xpakx.locus.security.JwtUtils;
 import io.restassured.http.ContentType;
@@ -41,9 +40,6 @@ class ImportControllerTest {
     JwtUtils jwt;
     @Autowired
     BookmarkRepository bookmarkRepository;
-
-    @MockBean
-    UrlReaderService urlReaderService;
 
     @MockBean
     ElasticSearchAspect aspect;
@@ -96,7 +92,6 @@ class ImportControllerTest {
 
     @Test
     void shouldImportBookmarks() throws IOException {
-        doReturn("").when(urlReaderService).read(any(URL.class));
         given()
                 .auth()
                 .oauth2(tokenFor("user1"))

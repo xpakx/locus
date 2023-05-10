@@ -1,7 +1,6 @@
 package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.TagRequest;
-import io.github.xpakx.locus.downloader.UrlReaderService;
 import io.github.xpakx.locus.elasticsearch.ElasticSearchAspect;
 import io.github.xpakx.locus.security.JwtUtils;
 import io.restassured.http.ContentType;
@@ -40,9 +39,6 @@ class TagControllerTest {
     BookmarkRepository bookmarkRepository;
     @Autowired
     TagRepository tagRepository;
-
-    @MockBean
-    UrlReaderService urlReaderService;
 
     @MockBean
     ElasticSearchAspect aspect;

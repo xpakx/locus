@@ -1,7 +1,6 @@
 package io.github.xpakx.locus.bookmark;
 
 import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
-import io.github.xpakx.locus.downloader.UrlReaderService;
 import io.github.xpakx.locus.elasticsearch.ElasticSearchAspect;
 import io.github.xpakx.locus.security.JwtUtils;
 import io.restassured.http.ContentType;
@@ -38,9 +37,6 @@ class BookmarkControllerTest {
     JwtUtils jwt;
     @Autowired
     BookmarkRepository bookmarkRepository;
-
-    @MockBean
-    UrlReaderService urlReaderService;
 
     @MockBean
     ElasticSearchAspect aspect;
@@ -91,7 +87,6 @@ class BookmarkControllerTest {
 
     @Test
     void shouldBookmarkPage() throws IOException {
-        doReturn("").when(urlReaderService).read(any(URL.class));
         given()
                 .auth()
                 .oauth2(tokenFor("user1"))
@@ -103,23 +98,6 @@ class BookmarkControllerTest {
                 .log().body()
                 .statusCode(OK.value())
                 .body("url", equalTo("http://example.com"));
-    }
-
-    @Test
-    void shouldBookmarkPageWithCorrectContent() throws IOException {
-        doReturn("webpage content").when(urlReaderService).read(any(URL.class));
-        given()
-                .auth()
-                .oauth2(tokenFor("user1"))
-                .contentType(ContentType.JSON)
-                .body(getBookmarkRequest("http://example.com"))
-        .when()
-                .post(baseUrl)
-        .then()
-                .log().body()
-                .statusCode(OK.value())
-                .body("url", equalTo("http://example.com"))
-                .body("content", equalTo("webpage content"));
     }
 
     @Test
