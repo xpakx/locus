@@ -1,6 +1,7 @@
 package io.github.xpakx.locus.annotation;
 
 import io.github.xpakx.locus.annotation.dto.HighlightRequest;
+import io.github.xpakx.locus.annotation.dto.UpdateAnnotationRequest;
 import io.github.xpakx.locus.annotation.dto.VideoHighlightRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,13 @@ public class AnnotationController {
     @DeleteMapping("/{annotationId}")
     public void deleteAnnotation(@PathVariable Long annotationId, Principal principal) {
         service.deleteAnnotation(annotationId, principal.getName());
+    }
+
+    @PutMapping("/{annotationId}")
+    @ResponseBody
+    public Highlight updateAnnotation(@PathVariable Long annotationId,
+                                 @RequestBody UpdateAnnotationRequest request,
+                                 Principal principal) {
+        return service.updateAnnotation(request, annotationId, principal.getName());
     }
 }

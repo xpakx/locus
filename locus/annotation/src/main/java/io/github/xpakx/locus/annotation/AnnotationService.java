@@ -2,6 +2,7 @@ package io.github.xpakx.locus.annotation;
 
 import io.github.xpakx.locus.annotation.dto.BasicAnnotationRequest;
 import io.github.xpakx.locus.annotation.dto.HighlightRequest;
+import io.github.xpakx.locus.annotation.dto.UpdateAnnotationRequest;
 import io.github.xpakx.locus.annotation.dto.VideoHighlightRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,15 @@ public class AnnotationService {
             return;
         }
         highlightRepository.delete(highlight);
+    }
+
+    public Highlight updateAnnotation(UpdateAnnotationRequest request, Long id, String username) {
+        Highlight highlight = highlightRepository.findById(id)
+                .orElseThrow();
+        if(!highlight.getOwner().equals(username)) {
+            return null;
+        }
+        highlight.setAnnotation(request.annotation());
+        return highlightRepository.save(highlight);
     }
 }
