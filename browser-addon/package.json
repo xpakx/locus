@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Browser add-on for knowledge management",
   "scripts": {
-    "start": "parcel watch src/manifest.json",
-    "build": "parcel build src/manifest.json"
+    "start:chrome": "parcel watch src/manifest.json --dist-dir dist/chrome --no-hmr",
+    "build:chrome": "parcel build src/manifest.json --dist-dir dist/chrome",
+    "clean:chrome": "rm -rf dist/chrome",
+    "package:chrome": "web-ext build --overwrite-dest --source-dir dist/chrome --filename chrome.zip"
   },
   "author": "",
   "devDependencies": {
