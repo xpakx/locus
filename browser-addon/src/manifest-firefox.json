@@ -1,0 +1,47 @@
+{
+  "manifest_version": 2,
+  "name": "Locus Communis",
+  "version": "1.0",
+  "description": "Knowledge management add-on",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/main.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/watch?v=*"
+      ],
+      "js": [
+        "scripts/youtube.ts"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+        "pages/*",
+        "styles/style.css",
+        "styles/search.css",
+        "icons/*"
+  ],
+  "action": {
+    "default_icon": "icons/app-icon-32.png",
+    "default_title": "Locus",
+    "default_popup": "pages/toolbar.html"
+  },
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "scripts": [
+      "scripts/background.ts"
+    ],
+    "persistent": false
+  }
+}
