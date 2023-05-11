@@ -5,3 +5,13 @@ b.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         chrome.tabs.create({ url: message.url });
     }
 });
+
+b.runtime.onMessageExternal.addListener(function (message, sender) {
+    if (!message) {
+        return;
+    }
+
+    if (message.action === "open_search") {
+        chrome.tabs.create({ url: "pages/search.html" });
+    }
+});
