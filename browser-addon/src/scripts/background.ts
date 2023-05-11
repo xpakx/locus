@@ -1,3 +1,5 @@
+import { APIMessage } from "./dto/api-message";
+
 const b = typeof browser !== "undefined" ? browser : chrome;
 
 b.runtime.onMessage.addListener(function (message, sender, sendResponse) {
@@ -6,7 +8,7 @@ b.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
 });
 
-b.runtime.onMessageExternal.addListener(function (message, sender) {
+b.runtime.onMessageExternal.addListener(function (message: APIMessage, sender) {
     if (!message) {
         return;
     }

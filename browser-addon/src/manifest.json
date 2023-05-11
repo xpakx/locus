@@ -46,6 +46,7 @@
     "tabs"
   ],
   "background": {
-    "service_worker": "scripts/background.ts"
+    "service_worker": "scripts/background.ts",
+    "type": "module"
   }
 }
