@@ -24,10 +24,10 @@
     }
   ],
   "web_accessible_resources": [
-        "pages/*",
-        "styles/style.css",
-        "styles/search.css",
-        "icons/*"
+    "pages/*",
+    "styles/style.css",
+    "styles/search.css",
+    "icons/*"
   ],
   "browser_action": {
     "default_icon": "icons/app-icon-32.png",
@@ -44,5 +44,11 @@
       "scripts/background.ts"
     ],
     "persistent": false
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "locus-communis@JiFtPS9Bxoqb6A",
+      "strict_min_version": "42.0"
+    }
   }
 }
