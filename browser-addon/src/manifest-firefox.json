@@ -29,14 +29,15 @@
         "styles/search.css",
         "icons/*"
   ],
-  "action": {
+  "browser_action": {
     "default_icon": "icons/app-icon-32.png",
     "default_title": "Locus",
     "default_popup": "pages/toolbar.html"
   },
   "permissions": [
     "storage",
-    "tabs"
+    "tabs",
+    "http://localhost/*"
   ],
   "background": {
     "scripts": [

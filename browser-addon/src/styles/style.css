@@ -111,24 +111,24 @@
 }
 
 .heart.icon-5nouv56 {
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/heart.svg);
 }
 
 .heart.fav.icon-5nouv56 {
     background-color: rgb(106, 227, 148);
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/heart-full.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/heart-full.svg);
 }
 
 .search.icon-5nouv56 {
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/search.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/search.svg);
 }
 
 .close.icon-5nouv56 {
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/close.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/close.svg);
 }
 
 .highlight.icon-5nouv56 {
-    mask-image: url(chrome-extension://__MSG_@@extension_id__/icons/highlight.svg);
+    mask-image: url(moz-extension://__MSG_@@extension_id__/icons/highlight.svg);
 }
 
 /***********
