@@ -31,7 +31,12 @@ export class BackgroundService {
         } else if (message.action == "add_bookmark" && message.url) {
             console.log("Adding bookmark");
             return await this.bookmarkService.addBookmark(message.url, this.token);
-
+        } else if (message.action == "delete_bookmark" && message.id) {
+            console.log("Deleting bookmark");
+            return await this.bookmarkService.deleteBookmark(message.id, this.token);
+        }  else if (message.action == "check_bookmark" && message.url) {
+            console.log("Checking if page is bookmarked");
+            return await this.bookmarkService.checkBookmark(message.url, this.token);
         } else {
             return Promise.reject(new Error("No such action!"));
         }

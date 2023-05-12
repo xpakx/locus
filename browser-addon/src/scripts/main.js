@@ -1,5 +1,4 @@
 import { AnnotationService } from "./service/annotation-service";
-import { BookmarkService, BookmarkService } from "./service/bookmark-service";
 import { HighlightService } from "./service/highlight-service";
 
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
@@ -13,7 +12,6 @@ var sidebarDiv = null;
 var markdownInput = null;
 var bookmarkId = null;
 var annotationService = new AnnotationService();
-var bookmarkService = new BookmarkService();
 var highlightService = new HighlightService();
 
 storage.local.get('token', function (result) {
@@ -182,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function checkBookmark() {
-  bookmarkService.checkBookmark(url, token)
+  runtime.sendMessage({action: "check_bookmark", url: url})
     .then(data => {
       const heartIcon = document.querySelector('.heart')[0];
       console.log(heartIcon);
@@ -208,7 +206,7 @@ function addBookmark() {
 }
 
 function deleteBookmark(id) {
-  bookmarkService.deleteBookmark(id, token)
+  runtime.sendMessage({ action: "delete_bookmark", id: id})
     .then(data => {
       heartIcon.classList.toggle('fav', false);
       bookmarked = false;
