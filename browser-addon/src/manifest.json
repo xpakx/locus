@@ -47,8 +47,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "locus-communis@JiFtPS9Bxoqb6A",
-      "strict_min_version": "42.0"
+      "id": "locus-communis@JiFtPS9Bxoqb6A"
     }
   }
 }

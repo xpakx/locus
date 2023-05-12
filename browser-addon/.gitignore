@@ -66,4 +66,3 @@ dist/
 .parcel-cache/
 
 web-ext-artifacts
-src/manifest.json

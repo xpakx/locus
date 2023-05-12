@@ -3,16 +3,10 @@
   "version": "1.0.0",
   "description": "Browser add-on for knowledge management",
   "scripts": {
-    "init:chrome": "cp src/manifest-chrome.json src/manifest.json",
-    "init:firefox": "cp src/manifest-firefox.json src/manifest.json",
-    "start:chrome": "npm run init:chrome && parcel watch src/manifest.json --dist-dir dist/chrome --no-hmr",
-    "start:firefox": "npm run init:firefox && parcel watch src/manifest.json --dist-dir dist/firefox --no-hmr",
-    "build:chrome": "npm run init:chrome && parcel build src/manifest.json --dist-dir dist/chrome",
-    "build:firefox": "npm run init:firefox && parcel build src/manifest.json --dist-dir dist/firefox",
-    "clean:chrome": "rm -rf dist/chrome",
-    "clean:firefox": "rm -rf dist/firefox",
-    "package:chrome": "web-ext build --overwrite-dest --source-dir dist/chrome --filename chrome.zip",
-    "package:firefox": "web-ext build --overwrite-dest --source-dir dist/firefox --filename firefox.zip"
+    "start": "parcel watch src/manifest.json --dist-dir dist --no-hmr",
+    "build": "parcel build src/manifest.json --dist-dir dist",
+    "clean": "rm -rf dist",
+    "package": "web-ext build --overwrite-dest --source-dir dist --filename firefox.zip"
   },
   "author": "",
   "devDependencies": {
