@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const searchButton = toolbar.querySelector('.search').parentElement.parentElement;
       searchButton.addEventListener('click', function (event) {
         console.log('Search button clicked');
-        runtime.sendMessage({ action: "open_tab", url: "pages/search.html" });
+        runtime.sendMessage({ action: "open_tab", url: "pages/search.html" })
+          .then((response) => console.log(response));
       });
 
       const closeButton = toolbar.querySelector('.close').parentElement.parentElement;
@@ -194,15 +195,16 @@ function checkBookmark() {
 }
 
 function addBookmark() {
-  bookmarkService.addBookmark(url, token)
-    .then(data => {
+  runtime.sendMessage({ action: "add_bookmark", url: url })
+  .then(
+    (data) => {
+      console.log("Data: " + data);
       heartIcon.classList.toggle('fav', true);
       bookmarked = true;
       bookmarkId = data.id;
-    })
-    .catch(error => {
-      console.error('An error occurred:', error);
-    });
+    }
+  )
+  .catch(error => console.log(error));
 }
 
 function deleteBookmark(id) {
