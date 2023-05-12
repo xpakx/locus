@@ -30,13 +30,7 @@ export class BackgroundService {
             return Promise.resolve("OK");
         } else if (message.action == "add_bookmark" && message.url) {
             console.log("Adding bookmark");
-            try {
-                console.log("Not error yet")
-                return await this.bookmarkService.addBookmark(message.url, this.token);
-            } catch (error) {
-                console.log("Error")
-                return Promise.reject(error);
-            }
+            return await this.bookmarkService.addBookmark(message.url, this.token);
 
         } else {
             return Promise.reject(new Error("No such action!"));
