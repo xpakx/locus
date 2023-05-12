@@ -1,13 +1,10 @@
 import { APIMessage } from "./dto/api-message";
-import { InternalMessage } from "./dto/internal-message";
+import { BackgroundService } from "./service/background-service";
 
 const b = typeof browser !== "undefined" ? browser : chrome;
+const bgService = new BackgroundService();
 
-b.runtime.onMessage.addListener(function (message: InternalMessage, sender, sendResponse) {
-    if (message.action === "open_tab") {
-        chrome.tabs.create({ url: message.url });
-    }
-});
+b.runtime.onMessage.addListener(bgService.onMessage);
 
 b.runtime.onMessageExternal.addListener(function (message: APIMessage, sender) {
     if (!message) {
