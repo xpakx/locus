@@ -1,13 +1,16 @@
 import { InternalMessage } from "../dto/internal-message";
+import { AnnotationService } from "./annotation-service";
 import { BookmarkService } from "./bookmark-service";
 
 export class BackgroundService {
     bookmarkService: BookmarkService;
+    annotationService: AnnotationService;
     storage;
     token: string | undefined;
 
-    constructor(bookmarkService: BookmarkService) {
+    constructor(bookmarkService: BookmarkService, annotationService: AnnotationService) {
         this.bookmarkService = bookmarkService;
+        this.annotationService = annotationService;
         this.storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
         this.storage.local.get('token', function (result) {
             if (result.token) {
@@ -34,6 +37,17 @@ export class BackgroundService {
         } else if (message.action == "delete_bookmark" && message.id) {
             console.log("Deleting bookmark");
             return await this.bookmarkService.deleteBookmark(message.id, this.token);
+        } else if (message.action == "add_annotation" && message.annotation && message.url) {
+            console.log("Adding annotation");
+            return await this.annotationService.addAnnotation(
+               message.url,
+               message.annotation.pageAnnotation,
+               message.annotation.text,
+               message.annotation.startElement,
+               message.annotation.selectionStart,
+               message.annotation.endElement,
+               message.annotation.selectionEnd,
+               this.token);
         }  else if (message.action == "check_bookmark" && message.url) {
             console.log("Checking if page is bookmarked");
             return await this.bookmarkService.checkBookmark(message.url, this.token);

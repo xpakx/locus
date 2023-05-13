@@ -233,7 +233,20 @@ document.addEventListener('keydown', function (event) {
 
 function highlightText(text, startContainer, endContainer, startOffset, endOffset) {
   highlightService.prepareHighlight(startContainer, endContainer, startOffset, endOffset);
-  annotationService.addAnnotation(url, null, text, startContainer, startOffset, endContainer, endOffset, token)
+  runtime.sendMessage(
+    {
+      action: "add_annotation", 
+      url: url,
+      annotation: {
+        pageAnnotation: null,
+        text: text,
+        startElement: startContainer,
+        selectionStart: startOffset,
+        endElement: endContainer,
+        selectionEnd: endOffset
+      }
+    }
+      )
     .then(data => {
       prepareHighlight(startContainer, endContainer, startOffset, endOffset);
     })

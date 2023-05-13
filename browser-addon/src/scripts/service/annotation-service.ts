@@ -19,12 +19,12 @@ export class AnnotationService {
     }
 
     async addAnnotation(url: string,
-        pageAnnotation: string,
-        text: string,
-        startElement: string,
-        selectionStart: number,
-        endElement: string,
-        selectionEnd: number,
+        pageAnnotation?: string,
+        text?: string,
+        startElement?: string,
+        selectionStart?: number,
+        endElement?: string,
+        selectionEnd?: number,
         token?: string): Promise<Annotation> {
 
         const response = await fetch(`${this.apiUri}/annotations`, {
