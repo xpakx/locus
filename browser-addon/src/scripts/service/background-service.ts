@@ -51,6 +51,9 @@ export class BackgroundService {
         }  else if (message.action == "check_bookmark" && message.url) {
             console.log("Checking if page is bookmarked");
             return await this.bookmarkService.checkBookmark(message.url, this.token);
+        }  else if (message.action == "fetch_annotations" && message.url) {
+            console.log("Checking if page is bookmarked")
+            return await this.annotationService.fetchAllAnnotations(message.url, this.token);
         } else {
             return Promise.reject(new Error("No such action!"));
         }

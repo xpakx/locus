@@ -1,4 +1,3 @@
-import { AnnotationService } from "./service/annotation-service";
 import { HighlightService } from "./service/highlight-service";
 
 const storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
@@ -11,7 +10,6 @@ var toolbarDiv = null;
 var sidebarDiv = null;
 var markdownInput = null;
 var bookmarkId = null;
-var annotationService = new AnnotationService();
 var highlightService = new HighlightService();
 
 storage.local.get('token', function (result) {
@@ -316,7 +314,7 @@ function getPathTo(node) {
 }
 
 function addPageAnnotation(pageAnnotation) {
-  annotationService.addAnnotation(url, pageAnnotation, null, null, null, null, null, token)
+  runtime.sendMessage({action: "add_annotation", url: url, annotation: {pageAnnotation: pageAnnotation}})
     .then(data => {
       // TODO: show annotation in sidebar
     })
@@ -329,7 +327,7 @@ function fetchAnnotations() {
   if (!url) {
     return;
   }
-  annotationService.fetchAllAnnotations(url, token)
+  runtime.sendMessage({action: "fetch_annotations", url: url})
     .then(data => {
       for (let annotation of data) {
         prepareHighlight(data.startElement, data.endElement, data.selectionStart, data.selectionEnd)
