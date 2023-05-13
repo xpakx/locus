@@ -330,7 +330,7 @@ function fetchAnnotations() {
   runtime.sendMessage({action: "fetch_annotations", url: url})
     .then(data => {
       for (let annotation of data) {
-        prepareHighlight(data.startElement, data.endElement, data.selectionStart, data.selectionEnd)
+        prepareHighlight(annotation.startElement, annotation.endElement, annotation.selectionStart, annotation.selectionEnd)
       }
     })
     .catch(error => {
