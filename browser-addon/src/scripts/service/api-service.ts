@@ -10,15 +10,21 @@ export class APIService {
             chrome.tabs.create({ url: "pages/search.html" });
         } else if (message.action == "close_toolbar") {
             browser.tabs.getCurrent()
-                .then(tab => this.closeToolbar(tab?.id))
+                .then(tab => this.sendToActiveTab("close_toolbar", tab?.id))
+        } else if (message.action == "open_toolbar") {
+            browser.tabs.getCurrent()
+                .then(tab => this.sendToActiveTab("open_toolbar", tab?.id))
+        } else if (message.action == "toggle_toolbar") {
+            browser.tabs.getCurrent()
+                .then(tab => this.sendToActiveTab("toggle_toolbar", tab?.id))
         }
     }
 
-    closeToolbar(id?: number) {
+    sendToActiveTab(message: string, id?: number) {
         if (!id) {
             return;
         }
-        browser.tabs.sendMessage(id, {action: "close_toolbar"})
+        browser.tabs.sendMessage(id, {action: message})
             .then(response => {
                 console.log(response)
             });
