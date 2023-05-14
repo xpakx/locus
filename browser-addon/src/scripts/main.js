@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function checkBookmark() {
-  runtime.sendMessage({action: "check_bookmark", url: url})
+  runtime.sendMessage({ action: "check_bookmark", url: url })
     .then(data => {
       const heartIcon = document.querySelector('.heart')[0];
       console.log(heartIcon);
@@ -192,19 +192,19 @@ function checkBookmark() {
 
 function addBookmark() {
   runtime.sendMessage({ action: "add_bookmark", url: url })
-  .then(
-    (data) => {
-      console.log("Data: " + data);
-      heartIcon.classList.toggle('fav', true);
-      bookmarked = true;
-      bookmarkId = data.id;
-    }
-  )
-  .catch(error => console.log(error));
+    .then(
+      (data) => {
+        console.log("Data: " + data);
+        heartIcon.classList.toggle('fav', true);
+        bookmarked = true;
+        bookmarkId = data.id;
+      }
+    )
+    .catch(error => console.log(error));
 }
 
 function deleteBookmark(id) {
-  runtime.sendMessage({ action: "delete_bookmark", id: id})
+  runtime.sendMessage({ action: "delete_bookmark", id: id })
     .then(data => {
       heartIcon.classList.toggle('fav', false);
       bookmarked = false;
@@ -233,7 +233,7 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
   highlightService.prepareHighlight(startContainer, endContainer, startOffset, endOffset);
   runtime.sendMessage(
     {
-      action: "add_annotation", 
+      action: "add_annotation",
       url: url,
       annotation: {
         pageAnnotation: null,
@@ -244,7 +244,7 @@ function highlightText(text, startContainer, endContainer, startOffset, endOffse
         selectionEnd: endOffset
       }
     }
-      )
+  )
     .then(data => {
       prepareHighlight(startContainer, endContainer, startOffset, endOffset);
     })
@@ -314,7 +314,7 @@ function getPathTo(node) {
 }
 
 function addPageAnnotation(pageAnnotation) {
-  runtime.sendMessage({action: "add_annotation", url: url, annotation: {pageAnnotation: pageAnnotation}})
+  runtime.sendMessage({ action: "add_annotation", url: url, annotation: { pageAnnotation: pageAnnotation } })
     .then(data => {
       // TODO: show annotation in sidebar
     })
@@ -327,7 +327,7 @@ function fetchAnnotations() {
   if (!url) {
     return;
   }
-  runtime.sendMessage({action: "fetch_annotations", url: url})
+  runtime.sendMessage({ action: "fetch_annotations", url: url })
     .then(data => {
       for (let annotation of data) {
         prepareHighlight(annotation.startElement, annotation.endElement, annotation.selectionStart, annotation.selectionEnd)
@@ -337,3 +337,12 @@ function fetchAnnotations() {
       console.error('An error occurred:', error);
     });
 }
+
+
+
+browser.runtime.onMessage.addListener((message, sender) => {
+  if(message.action == "close_toolbar") {
+    toolbar.classList.add("hidden");
+  }
+});
+
