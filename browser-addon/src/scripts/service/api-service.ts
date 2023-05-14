@@ -9,28 +9,33 @@ export class APIService {
         if (message.action === "open_search") {
             chrome.tabs.create({ url: "pages/search.html" });
         } else if (message.action == "close_toolbar") {
-            browser.tabs.query({"currentWindow": true, "active": true})
-                .then(tab => this.sendToActiveTab("close_toolbar", this.getActiveTabId(tab)))
+            this.getActiveTabId()
+                .then(id => this.sendToTab("close_toolbar", id));
         } else if (message.action == "open_toolbar") {
-            browser.tabs.query({"currentWindow": true, "active": true})
-                .then(tab => this.sendToActiveTab("open_toolbar", this.getActiveTabId(tab)))
+            this.getActiveTabId()
+                .then(id => this.sendToTab("open_toolbar", id));
         } else if (message.action == "toggle_toolbar") {
             console.log("External API call to toggle toolbar")
-            browser.tabs.query({"currentWindow": true, "active": true})
-                .then(tab => this.sendToActiveTab("toggle_toolbar", this.getActiveTabId(tab)))
+            this.getActiveTabId()
+                .then(id => this.sendToTab("toggle_toolbar", id));
         }
     }
 
-    private getActiveTabId(tab: browser.tabs.Tab[]): number | undefined {
+    private getActiveTabId(): Promise<number | undefined> {
+        return browser.tabs.query({ "currentWindow": true, "active": true })
+            .then((tabs) => this.getTabId(tabs));
+    }
+
+    private getTabId(tab: browser.tabs.Tab[]): number | undefined {
         return tab.length > 0 ? tab[0].id : undefined;
     }
 
-    sendToActiveTab(message: string, id?: number) {
+    sendToTab(message: string, id?: number) {
         console.log("Active tab: " + id)
         if (!id) {
             return;
         }
-        browser.tabs.sendMessage(id, {action: message})
+        browser.tabs.sendMessage(id, { action: message })
             .then(response => {
                 console.log(response)
             });
