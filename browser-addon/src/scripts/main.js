@@ -342,11 +342,11 @@ function fetchAnnotations() {
 
 browser.runtime.onMessage.addListener((message, sender) => {
   if(message.action == "close_toolbar") {
-    toolbar.classList.add("hidden");
+    toolbarDiv.classList.add("hidden");
   } else if (message.action == "open_toolbar") {
-    toolbar.classList.remove("hidden")
+    toolbarDiv.classList.remove("hidden")
   } else if (message.action == "toggle_toolbar") {
-    toolbar.classList.toggle("hidden")
+    toolbarDiv.classList.toggle("hidden")
   }
 });
 
