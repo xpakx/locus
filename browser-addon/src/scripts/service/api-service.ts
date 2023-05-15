@@ -18,7 +18,17 @@ export class APIService {
             console.log("External API call to toggle toolbar")
             this.getActiveTabId()
                 .then(id => this.sendToTab("toggle_toolbar", id));
+        } else if (message.action == "close_sidebar") {
+            this.getActiveTabId()
+                .then(id => this.sendToTab("close_sidebar", id));
+        } else if (message.action == "open_sidebar") {
+            this.getActiveTabId()
+                .then(id => this.sendToTab("open_sidebar", id));
+        } else if (message.action == "toggle_sidebar") {
+            this.getActiveTabId()
+                .then(id => this.sendToTab("toggle_sidebar", id));
         }
+
     }
 
     private getActiveTabId(): Promise<number | undefined> {

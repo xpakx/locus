@@ -263,6 +263,14 @@ function hideFullsidebar() {
   toolbarDiv.style.display = "block";
 }
 
+function toggleFullSidebar() {
+  if(sidebarDiv.style.display === "none") {
+    showFullsidebar();
+  } else {
+    hideFullsidebar();
+  }
+}
+
 function getCaretPosition(element) {
   var range = window.getSelection().getRangeAt(0);
   var preCaretRange = range.cloneRange();
@@ -341,12 +349,18 @@ function fetchAnnotations() {
 
 
 browser.runtime.onMessage.addListener((message, sender) => {
-  if(message.action == "close_toolbar") {
+  if (message.action == "close_toolbar") {
     toolbarDiv.classList.add("hidden");
   } else if (message.action == "open_toolbar") {
     toolbarDiv.classList.remove("hidden")
   } else if (message.action == "toggle_toolbar") {
     toolbarDiv.classList.toggle("hidden")
+  } else if (message.action == "close_sidebar") {
+    hideFullsidebar();
+  } else if (message.action == "open_sidebar") {
+    showFullsidebar();
+  } else if (message.action == "toggle_sidebar") {
+    toggleFullSidebar();
   }
 });
 
