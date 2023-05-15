@@ -1,6 +1,28 @@
 import { APIMessage } from "../dto/api-message";
+import { BookmarkService } from "./bookmark-service";
 
 export class APIService {
+    bookmarkService: BookmarkService;
+    token?: string;
+storage;
+
+    constructor(bookmarkService: BookmarkService) {
+        this.bookmarkService = bookmarkService;
+        this.storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
+        this.storage.local.get('token', function (result) {
+            if (result.token) {
+                this.token = result.token;
+            }
+        });
+        this.storage.onChanged.addListener(function (changes, areaName) {
+            if (areaName === "local" && changes.token) {
+                if (changes.token.newValue) {
+                    this.token = changes.token.newValue;
+                }
+            }
+        });
+    }
+
     public onMessage(message: APIMessage) {
         if (!message) {
             return;
@@ -27,6 +49,8 @@ export class APIService {
         } else if (message.action == "toggle_sidebar") {
             this.getActiveTabId()
                 .then(id => this.sendToTab("toggle_sidebar", id));
+        } else if (message.action == "add_bookmark" && message.url) {
+            this.bookmarkService.addBookmark(message.url, this.token);
         }
 
     }
