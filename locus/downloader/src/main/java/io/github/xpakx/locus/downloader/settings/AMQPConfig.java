@@ -9,9 +9,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AMQPConfig {
     private final String contentTopic;
+    private final String pagesTopic;
+    private final String pagesQueue;
 
-    public AMQPConfig(@Value("${amqp.exchange.content}") final String contentTopic) {
+    public AMQPConfig(
+            @Value("${amqp.exchange.content}") final String contentTopic,
+            @Value("${amqp.exchange.pages}") final String pagesTopic,
+            @Value("${amqp.queue.pages}") final String pagesQueue
+    ) {
         this.contentTopic = contentTopic;
+        this.pagesTopic = pagesTopic;
+        this.pagesQueue = pagesQueue;
     }
 
     @Bean
@@ -28,22 +36,22 @@ public class AMQPConfig {
     }
 
     @Bean
-    public TopicExchange pagesTopicExchange(@Value("${amqp.exchange.pages}") final String exchangeName) {
+    public TopicExchange pagesTopicExchange() {
         return ExchangeBuilder
-                .topicExchange(exchangeName)
+                .topicExchange(pagesTopic)
                 .durable(true)
                 .build();
     }
 
     @Bean
-    public Queue pagesQueue(@Value("${amqp.queue.pages}") final String queueName) {
+    public Queue pagesQueue() {
         return QueueBuilder
-                .durable(queueName)
+                .durable(pagesQueue)
                 .build();
     }
 
     @Bean
-    public Binding accountsBinding(final Queue pagesQueue, final TopicExchange pagesTopicExchange) {
+    public Binding pagesBinding(final Queue pagesQueue, final TopicExchange pagesTopicExchange) {
         return BindingBuilder.bind(pagesQueue)
                 .to(pagesTopicExchange)
                 .with("page");
