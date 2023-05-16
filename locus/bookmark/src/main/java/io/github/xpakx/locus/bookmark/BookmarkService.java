@@ -64,4 +64,13 @@ public class BookmarkService {
         }
         bookmarkRepository.delete(bookmark);
     }
+
+    public void addContent(Long bookmarkId, String content) {
+       bookmarkRepository.findById(bookmarkId)
+               .ifPresent((bookmark -> {
+                   bookmark.setContent(content);
+                   bookmarkRepository.save(bookmark);
+               }));
+
+    }
 }
