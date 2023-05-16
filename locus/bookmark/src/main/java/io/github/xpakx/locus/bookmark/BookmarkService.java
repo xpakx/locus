@@ -5,6 +5,7 @@ import io.github.xpakx.locus.bookmark.dto.BookmarkRequest;
 import io.github.xpakx.locus.bookmark.dto.BookmarkSummary;
 import io.github.xpakx.locus.bookmark.dto.BooleanResponse;
 import io.github.xpakx.locus.bookmark.error.NotFoundException;
+import io.github.xpakx.locus.clients.GetContentFromWorker;
 import io.github.xpakx.locus.elasticsearch.SaveToElasticSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +21,11 @@ public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
 
     @SaveToElasticSearch
+    @GetContentFromWorker
     public BookmarkDto addBookmark(BookmarkRequest request, String username) {
         Bookmark bookmark = new Bookmark();
         bookmark.setUrl(request.url());
         bookmark.setDate(LocalDate.now());
-        //TODO bookmark.setContent(extractContent(request.url()));
         bookmark.setOwner(username);
         return BookmarkDto.of(bookmarkRepository.save(bookmark));
     }
