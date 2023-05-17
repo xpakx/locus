@@ -53,6 +53,9 @@ export class APIService {
             this.bookmarkService.addBookmark(message.url, this.token);
         } else if (message.action == "delete_bookmark" && message.id) {
             this.bookmarkService.deleteBookmark(message.id, this.token);
+        } else if (message.action == "add_highlight") {
+            this.getActiveTabId()
+                .then(id => this.sendToTab("add_highlight", id));
         }
 
     }

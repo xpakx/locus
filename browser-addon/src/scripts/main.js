@@ -365,6 +365,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
     showFullsidebar();
   } else if (message.action == "toggle_sidebar") {
     toggleFullSidebar();
+  } else if (message.action == "add_highlight") {
+    createHighlight();
   }
 });
 
