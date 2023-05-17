@@ -1,7 +1,6 @@
 package io.github.xpakx.locus.worker;
 
-import io.github.xpakx.locus.downloader.clients.ContentPublisher;
-import io.github.xpakx.locus.downloader.clients.event.ContentEvent;
+import io.github.xpakx.locus.clients.ContentPublisher;
 import io.github.xpakx.locus.worker.event.PageEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;

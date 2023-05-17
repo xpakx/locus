@@ -1,6 +1,6 @@
-package io.github.xpakx.locus.downloader.clients;
+package io.github.xpakx.locus.clients;
 
-import io.github.xpakx.locus.downloader.clients.event.ContentEvent;
+import io.github.xpakx.locus.clients.event.ContentEvent;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

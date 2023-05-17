@@ -1,4 +1,4 @@
-package io.github.xpakx.locus.downloader.settings;
+package io.github.xpakx.locus.settings;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
