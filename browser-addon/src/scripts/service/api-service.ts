@@ -4,7 +4,7 @@ import { BookmarkService } from "./bookmark-service";
 export class APIService {
     bookmarkService: BookmarkService;
     token?: string;
-storage;
+    storage;
 
     constructor(bookmarkService: BookmarkService) {
         this.bookmarkService = bookmarkService;
@@ -51,6 +51,8 @@ storage;
                 .then(id => this.sendToTab("toggle_sidebar", id));
         } else if (message.action == "add_bookmark" && message.url) {
             this.bookmarkService.addBookmark(message.url, this.token);
+        } else if (message.action == "delete_bookmark" && message.id) {
+            this.bookmarkService.deleteBookmark(message.id, this.token);
         }
 
     }
