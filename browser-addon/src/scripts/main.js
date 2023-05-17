@@ -93,16 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const highlightButton = hl.querySelector('.highlight').parentElement.parentElement;
       highlightButton.addEventListener('mousedown', function (event) {
         console.log('Highlight button clicked');
-        var selection = window.getSelection();
-        if (selection && selection.toString().length > 0) {
-          const range = selection.getRangeAt(0);
-          const startContainer = getPathTo(range.startContainer);
-          const endContainer = getPathTo(range.endContainer);
-          const startOffset = range.startOffset;
-          const endOffset = range.endOffset;
-          range.collapse();
-          highlightText(selection.toString(), startContainer, endContainer, startOffset, endOffset);
-        }
+        createHighlight();
         event.preventDefault();
       });
     });
@@ -176,6 +167,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 });
+
+function createHighlight() {
+  var selection = window.getSelection();
+  if (selection && selection.toString().length > 0) {
+    const range = selection.getRangeAt(0);
+    const startContainer = getPathTo(range.startContainer);
+    const endContainer = getPathTo(range.endContainer);
+    const startOffset = range.startOffset;
+    const endOffset = range.endOffset;
+    range.collapse();
+    highlightText(selection.toString(), startContainer, endContainer, startOffset, endOffset);
+  }
+}
 
 function checkBookmark() {
   runtime.sendMessage({ action: "check_bookmark", url: url })
