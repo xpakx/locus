@@ -12,6 +12,10 @@ spring:
           uri: http://localhost:8080
           predicates:
             - Path=/api/v1/bookmarks/**
+        - id: annotation
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/annotations/**
       globalcors:
         cors-configurations:
           '[/**]':
